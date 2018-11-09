@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
-import ShortStoryList from './components/ShortStoryList';
-import ShortStoryModal from './components/shortStoryModal';
-import AuthorProfile from './components/AuthorProfile';
-import CreateAuthorProfile from './components/CreateAuthorProfile';
-import AuthorProfileList from './components/AuthorProfileList';
+import BrowseAuthors from './components/BrowseAuthors';
+import BrowseShortStories from './components/BrowseShortStories';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
   Container
  } from 'reactstrap';
@@ -27,8 +25,6 @@ import {
   faCheckSquare
 } from '@fortawesome/free-solid-svg-icons';
 
-
-
 library.add(
   fab,
   faCoffee,
@@ -40,23 +36,34 @@ library.add(
 )
 
 class App extends Component {
+
   render() {
+    let browseShortStories = () => {
+      return(
+        <BrowseShortStories/>
+      );
+    }
+
+    let browseAuthors = () => {
+      return(
+        <BrowseAuthors/>
+      );
+    }
+
     return (
       <Provider store={store}>
         <div className="App">
+
           <header className="App-header">
             <AppNavBar />
           </header>
 
-          <Container>
-            <CreateAuthorProfile />
-            <AuthorProfileList />
-          </Container>
-
-          <Container>
-            <ShortStoryModal />
-            <ShortStoryList />
-          </Container>
+          <Router>
+            <div>
+              <Route exact path="/" component={browseShortStories} />
+              <Route path="/authors" component={browseAuthors} />
+            </div>
+          </Router>
 
         </div>
       </Provider>

@@ -13,7 +13,10 @@ const Author = require('../../models/Author');
 router.get('/', (req, res) => {
   Author.find()
     .sort({ createdDate: -1})
-    .then(authors => res.json(authors))
+    .then(authors => {
+      res.json(authors)
+      res.send("<div><p>Hello There</p></div>")
+    })
 });
 
 // @route   GET api/authors/:id
