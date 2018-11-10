@@ -24,9 +24,9 @@ class AppNavbar extends Component {
 
   render() {
     return (
-      
+
       <div>
-        
+
         <Navbar color="dark" dark expand="sm" className="mb-5">
           <Container>
             <NavbarBrand href="/">SmallBooks</NavbarBrand>
@@ -34,8 +34,13 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="https://help.github.com/articles/basic-writing-and-formatting-syntax/">
+                  <NavLink href="/">
                      Browse Stories
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/authors">
+                     Browse Authors
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -53,7 +58,7 @@ class AppNavbar extends Component {
           </Container>
         </Navbar>
       </div>
-    );    
+    );
   }
 }
 
