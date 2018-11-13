@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import BrowseAuthors from './components/BrowseAuthors';
+import StoryReader from './components/StoryReader';
 import BrowseShortStories from './components/BrowseShortStories';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {
@@ -40,7 +41,8 @@ class App extends Component {
   render() {
     let browseShortStories = () => {
       return(
-        <BrowseShortStories/>
+        <StoryReader/>
+        // <BrowseShortStories/>
       );
     }
 

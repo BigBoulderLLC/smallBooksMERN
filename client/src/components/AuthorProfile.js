@@ -23,19 +23,29 @@ class AuthorProfile extends Component {
   render() {
     return(
     	<Card>
-			<CardHeader tag="h3">{this.props.author.authorName}</CardHeader>
-			<CardBody>
-				<CardTitle>
-					Biography
-				</CardTitle>
+
+  			<CardHeader tag="h3">
+            {this.props.author.authorName}
+        </CardHeader>
+
+  			<CardBody>
+
+  				<CardTitle>
+  					Biography
+  				</CardTitle>
+
 	  			<CardText>
 	  				{this.props.author.authorBiography}
 	  			</CardText>
+
 	  			<CardTitle>
 	  				Stories by this Author
 	  			</CardTitle>
+
 	  			<ShortStoryList/>
-		</CardBody>
+
+  		  </CardBody>
+
     	</Card>
     );
   }
