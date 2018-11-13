@@ -70,8 +70,8 @@ class Example extends Component {
     const { activeIndex } = this.state;
 
     const slides = items.map((item) => {
-      return (     
-      		<CarouselItem 
+      return (
+      		<CarouselItem
 	          onExiting={this.onExiting}
 	          onExited={this.onExited}
 	          key={item.src}
@@ -91,20 +91,9 @@ class Example extends Component {
     });
 
     return (
-    	<div> 
-	    	<style>
-	    		{
-	    			`.page {
-	    				max-width: 90%;
-	    				margin: auto;
-	    				height: 100%;
-	    				background: white
-	    			}`
-    			}
-	    	</style>    
+    	<div>
     		<Carousel
-      		    className="page"
-      		    tag="div"
+    		    className="story-reader"
 		        activeIndex={activeIndex}
 		        next={this.next}
 		        previous={this.previous}

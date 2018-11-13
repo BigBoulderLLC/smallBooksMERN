@@ -41,8 +41,8 @@ class App extends Component {
   render() {
     let browseShortStories = () => {
       return(
-        <StoryReader/>
-        // <BrowseShortStories/>
+        //<StoryReader/>
+        <BrowseShortStories/>
       );
     }
 
