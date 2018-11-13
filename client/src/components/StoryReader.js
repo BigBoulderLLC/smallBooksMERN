@@ -68,15 +68,17 @@ class Example extends Component {
 
   render() {
     const { activeIndex } = this.state;
+    const heightStyle = {height: '100%'};
 
     const slides = items.map((item) => {
       return (
       		<CarouselItem
+            style={heightStyle}
 	          onExiting={this.onExiting}
 	          onExited={this.onExited}
 	          key={item.src}
 	        >
-	          <Card height="100%">
+	          <Card style={heightStyle}>
 	          	<CardBody>
 		          <CardTitle>Card title</CardTitle>
 		          <CardSubtitle>Card subtitle</CardSubtitle>
@@ -84,16 +86,15 @@ class Example extends Component {
 		        </CardBody>
 	          </Card>
 
-        	  <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-
 	        </CarouselItem>
       );
     });
 
     return (
-    	<div>
+    	<div style={heightStyle}>
     		<Carousel
     		    className="story-reader"
+            style={heightStyle}
 		        activeIndex={activeIndex}
 		        next={this.next}
 		        previous={this.previous}

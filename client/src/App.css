@@ -19,13 +19,19 @@
 }
 
 .story-reader {
-  max-width: 90%;
+  max-width: 95%;
   margin: auto;
   height: 100%;
   background: white
 }
 
-.story-reader span.carousel-control-next-icon,
-.story-reader span.carousel-control-prev-icon {
+.story-reader .carousel-inner,
+.story-reader .carousel-item {
+  height: 100%;
+}
+
+.story-reader .carousel-control-next-icon,
+.story-reader .carousel-control-prev-icon,
+.story-reader .carousel-indicators {
   display: none
 }

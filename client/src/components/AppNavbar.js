@@ -27,7 +27,7 @@ class AppNavbar extends Component {
 
       <div>
 
-        <Navbar color="dark" dark expand="sm" className="mb-5">
+        <Navbar color="dark" dark expand="sm" className="mb-3">
           <Container>
             <NavbarBrand href="/">SmallBooks</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />

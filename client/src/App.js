@@ -41,8 +41,8 @@ class App extends Component {
   render() {
     let browseShortStories = () => {
       return(
-        //<StoryReader/>
-        <BrowseShortStories/>
+        <StoryReader/>
+        //<BrowseShortStories/>
       );
     }
 
@@ -54,14 +54,14 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <div className="App">
+        <div className="App" style={{height: '100%'}}>
 
           <header className="App-header">
             <AppNavBar />
           </header>
 
           <Router>
-            <div>
+            <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />
             </div>
