@@ -9,6 +9,7 @@ const db = require('./config/keys').mongoURI;
 
 const shortStories = require('./routes/api/short-stories');
 const users = require('./routes/api/user');
+const accounts = require('./routes/api/account');
 
 app.use(express.json());
 
@@ -25,6 +26,7 @@ mongoose
 // use routes
 app.use('/api/short-stories', shortStories);
 app.use('/api/user', users);
+app.use('/api/account', accounts);
 app.use(require('express-session')({
   secret: 'keyboard cat',
   resave: false,

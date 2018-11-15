@@ -1,0 +1,96 @@
+import React, { Component } from 'react';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  FormText
+} from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { register } from '../actions/registerActions'; 
+
+class LoginModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // showModal: this.props.showModal,
+      email:this.props.email,
+      password:this.props.password
+    }
+    // this.toggle = this.toggle.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    console.log(`Login Modal Component: showModal = ${this.state.showModal}`);
+  }
+
+  // toggle = () => {
+  //   this.setState({
+  //     showModal: !this.state.showModal
+  //   })
+  // }
+
+  onChange = e => {
+    // let shortStory = this.state.shortStory;
+    // shortStory[e.target.name] = e.target.value;
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+  
+  onSubmit = e => {
+    e.preventDefault();
+    this.props.register({
+      username:this.state.email,
+      password:this.state.password
+    });
+
+    this.setState({
+      password: null
+    });
+  }
+
+  render() {
+    return(
+      <Modal isOpen={this.props.showModal} toggle={this.props.toggle}>
+        <ModalHeader toggle={this.props.toggle}>
+          Login
+        </ModalHeader>
+        <ModalBody>
+          <Form onSubmit={this.onSubmit}>
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input type="email" name="email" id="email" placeholder="Enter a valid email address" onChange={this.onChange} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="password">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="********"
+              />
+              {/* <Input type="password" name="password" id="password" onChange={this.onChange} /> */}
+              <FormText>Your username is most likely your email.</FormText>
+            </FormGroup>
+            <Button>Submit</Button>
+          </Form>
+        </ModalBody>
+      </Modal>
+    );
+  }
+}
+
+LoginModal.propTypes = {
+  register: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  register: state.shortStory
+});
+
+export default connect(mapStateToProps, { register })(LoginModal);
