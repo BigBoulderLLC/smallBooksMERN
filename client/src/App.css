@@ -22,9 +22,32 @@
   max-width: 95%;
   margin: auto;
   height: 100%;
-  background: white
+  background: white;
+  font-size: 120%;
 }
 
+.story-title {
+  text-align: center;
+}
+
+.story-subtitle {
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .story-title {
+    font-size: 140%
+  }
+
+  .story-subtitle {
+    font-size: 90%
+  }
+
+  .story-reader{
+    font-size: 200%
+  }
+
+}
 .story-reader .carousel-inner,
 .story-reader .carousel-item {
   height: 100%;

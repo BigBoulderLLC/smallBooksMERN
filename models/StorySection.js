@@ -2,23 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // create Schema
-const ShortStorySchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
+const StorySectionSchema = new Schema({
+  title: {
     type: String
   },
-  story: {
+  text: {
     type: String
-  },
-  authorId: {
-    type: Integer
-  },
-  author: {
-    type: String,
-    required: true
   },
   createdDate: {
     type: Date,
@@ -35,11 +24,7 @@ const ShortStorySchema = new Schema({
   updatedBy: {
     type: String,
     required: true
-  },
-  isPublic: {
-    type: Boolean,
-    default: false
   }
 });
 
-module.exports = ShortStory = mongoose.model('short-story', ShortStorySchema);
+module.exports = StorySection = mongoose.model('story-section', StorySectionSchema);
