@@ -37,6 +37,26 @@ Account.pre('save', function(next) {
   })
 })
 
+Account.statics.authenticate = (email, password, callback) => {
+  Account.findOne({email: email})
+    .exec((err, account) => {
+      if (err) {
+        return callback(err)
+      } else if (!account) {
+        let err = new Error('User not found.');
+        err.status = 401;
+        return callback(err)
+      }
+      bcrypt.compare(password, account, (err, result) => {
+        if (result === true) {
+          return callback(null, account);
+        } else {
+          return callback();
+        }
+      })
+    })
+}
+
 // Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('accounts', Account)

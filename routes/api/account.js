@@ -15,7 +15,7 @@ Router.get('/register', (req, res) => {
   res.render('register', {});
 });
 
-Router.post('/register', (req, res, next) => {
+Router.post('/register', (req, res) => {
   const account = new Account({
     email: req.body.email,
     username: req.body.username,
@@ -35,16 +35,14 @@ Router.post('/register', (req, res, next) => {
 //   res.render('login', {user: req.user, error: null})
 // });
 
-// Router.post('/login', passport.authenticate('local', 
-//   { failureRedirect: '/login', failureFlash: true }), 
-//   (req, res, next) => {
-//   req.session.save((err) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.redirect('/');
-//   });
-// });
+Router.post('/login', (req, res, next) => {
+  req.session.save((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
 
 // Router.get('/logout', (req,res,next) => {
 //   req.logout();

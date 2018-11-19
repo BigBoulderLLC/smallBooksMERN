@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
 // const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
 
@@ -28,7 +29,7 @@ mongoose
 app.use('/api/short-stories', shortStories);
 app.use('/api/user', users);
 app.use('/api/account', accounts);
-app.use(require('express-session')({
+app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false

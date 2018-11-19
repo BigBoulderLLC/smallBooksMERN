@@ -9,6 +9,7 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER = "REGISTER";
 export const REGISTERING = "REGISTERING";
+export const LOGGINGIN = "LOGGINGIN";
 
 //Authors
 export const GET_AUTHORS = "GET_AUTHORS";

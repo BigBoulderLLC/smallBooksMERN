@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
-import ShortStoryList from './components/ShortStoryList';
-import ShortStoryModal from './components/shortStoryModal';
 import LoginModal from './components/LoginModal';
 import { Container, Button } from 'reactstrap';
 import BrowseAuthors from './components/BrowseAuthors';
-import StoryReader from './components/StoryReader';
 import BrowseShortStories from './components/BrowseShortStories';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {
-  Container
- } from 'reactstrap';
 
 /* Import for our store and redux */
 
@@ -67,7 +61,6 @@ class App extends Component {
     }
 
     return (
-      <Provider store={store}>
         <div className="App">
 
           <header className="App-header">
@@ -90,7 +83,6 @@ class App extends Component {
           </Router>
 
         </div>
-      </Provider>
     );
   }
 }

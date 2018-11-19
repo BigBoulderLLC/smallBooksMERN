@@ -51,7 +51,7 @@ class LoginModal extends Component {
       password:this.state.password,
       passwordConf:"IDK what this is"
     });
-    console.log(`${this.state.password}`);
+    
 
     // this.setState({
     //   password: null
