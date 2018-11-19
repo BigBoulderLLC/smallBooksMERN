@@ -65,7 +65,7 @@ router.delete('/:id', (request, response) => {
       userToDelete.remove()
         .then(() => {
           response.json(
-            Responses.createSuccessResponse(successMessage);
+            Responses.createSuccessResponse(successMessage)
           )
         })
         .catch((err) => {
