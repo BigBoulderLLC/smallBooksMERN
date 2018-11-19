@@ -1,7 +1,11 @@
 const express = require('express');
-const passport = require('passport');
-// const Account = require('../../models/Account');
+// const passport = require('passport');
+const Account = require('../../models/Account');
 const Router = express.Router();
+const Responses = require('../../lib/Responses');
+
+const ResponseGenerator = new Responses();
+
 
 Router.get('/', (req, res) => {
   res.render('index', { user: req.user });
@@ -12,22 +16,19 @@ Router.get('/register', (req, res) => {
 });
 
 Router.post('/register', (req, res, next) => {
-  Account.register(new Account({
-    username: req.body.username
-  }), req.body.password, (err, account) => {
-    if (err) {
-      return res.render('register', {error: err.message})
-    }
-
-    passport.authenticate('local')(req, res, () => {
-      req.session.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
-      });
+  const account = new Account({
+    email: req.body.email,
+    username: req.body.username,
+    password: req.body.password,
+    passwordConf: req.body.passwordConf
+  })
+  console.log(account)
+  account.save()
+    .then(account => res.json(ResponseGenerator.createSuccessResponse("Account Created.")))
+    .catch((err) => {
+      console.log(err)
+      res.json(ResponseGenerator.createFailResponse("Account Creation Failed."))
     });
-  });
 });
 
 // Router.get('/login', (req,res) => {

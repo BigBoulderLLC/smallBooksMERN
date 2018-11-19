@@ -20,6 +20,7 @@ class LoginModal extends Component {
     this.state = {
       // showModal: this.props.showModal,
       email:this.props.email,
+      username:this.props.username,
       password:this.props.password
     }
     // this.toggle = this.toggle.bind(this);
@@ -45,13 +46,16 @@ class LoginModal extends Component {
   onSubmit = e => {
     e.preventDefault();
     this.props.register({
-      username:this.state.email,
-      password:this.state.password
+      email:this.state.email,
+      username:this.state.username,
+      password:this.state.password,
+      passwordConf:"IDK what this is"
     });
+    console.log(`${this.state.password}`);
 
-    this.setState({
-      password: null
-    });
+    // this.setState({
+    //   password: null
+    // });
   }
 
   render() {
@@ -67,15 +71,19 @@ class LoginModal extends Component {
               <Input type="email" name="email" id="email" placeholder="Enter a valid email address" onChange={this.onChange} />
             </FormGroup>
             <FormGroup>
+              <Label for="username">Username</Label>
+              <Input type="username" name="username" id="username" placeholder="Enter a valid email address" onChange={this.onChange} />
+            </FormGroup>
+            <FormText>Your username can't be changed, so choose wisely.</FormText>
+            <FormGroup>
               <Label for="password">Password</Label>
               <Input
                 type="password"
                 name="password"
                 id="password"
                 placeholder="********"
+                onChange={this.onChange}
               />
-              {/* <Input type="password" name="password" id="password" onChange={this.onChange} /> */}
-              <FormText>Your username is most likely your email.</FormText>
             </FormGroup>
             <Button>Submit</Button>
           </Form>
