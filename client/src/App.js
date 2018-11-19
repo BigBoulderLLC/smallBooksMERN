@@ -4,6 +4,13 @@ import ShortStoryList from './components/ShortStoryList';
 import ShortStoryModal from './components/shortStoryModal';
 import LoginModal from './components/LoginModal';
 import { Container, Button } from 'reactstrap';
+import BrowseAuthors from './components/BrowseAuthors';
+import StoryReader from './components/StoryReader';
+import BrowseShortStories from './components/BrowseShortStories';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  Container
+ } from 'reactstrap';
 
 /* Import for our store and redux */
 
@@ -22,8 +29,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { withCookies } from 'react-cookie';
-
-
 
 library.add(
   fab,
@@ -48,23 +53,44 @@ class App extends Component {
   }
 
   render() {
+    let browseShortStories = () => {
+      return(
+        //<StoryReader/>
+        <BrowseShortStories/>
+      );
+    }
+
+    let browseAuthors = () => {
+      return(
+        <BrowseAuthors/>
+      );
+    }
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <AppNavBar toggleLoginModal={this.toggleLoginModal.bind} />
-        </header>
-        <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
-        <Container>
-          <Button
-            onClick = {this.toggleLoginModal}
-            className="pull-right"
-          >
-            Log In
-          </Button>
-          <ShortStoryModal />
-          <ShortStoryList />
-        </Container>
-      </div>
+      <Provider store={store}>
+        <div className="App">
+
+          <header className="App-header">
+            <AppNavBar />
+          </header>
+          <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
+          <Container>
+            <Button
+              onClick = {this.toggleLoginModal}
+              className="pull-right"
+            >
+              Log In
+            </Button>
+          </Container>
+          <Router>
+            <div>
+              <Route exact path="/" component={browseShortStories} />
+              <Route path="/authors" component={browseAuthors} />
+            </div>
+          </Router>
+
+        </div>
+      </Provider>
     );
   }
 }

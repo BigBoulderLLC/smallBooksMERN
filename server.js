@@ -10,6 +10,7 @@ const db = require('./config/keys').mongoURI;
 const shortStories = require('./routes/api/short-stories');
 const users = require('./routes/api/user');
 const accounts = require('./routes/api/account');
+const authors = require('./routes/api/authors');
 
 app.use(express.json());
 
@@ -39,6 +40,7 @@ app.use(require('express-session')({
 // passport.use(new LocalStrategy(Account.authenticate()));
 // passport.serializeUser(Account.serializeUser());
 // passport.deserializeUser(Account.deserializeUser());
+app.use('/api/authors', authors);
 
 const port = process.env.PORT || 5000;
 

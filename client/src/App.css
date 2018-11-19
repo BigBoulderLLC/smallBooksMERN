@@ -17,3 +17,15 @@
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
 }
+
+.story-reader {
+  max-width: 90%;
+  margin: auto;
+  height: 100%;
+  background: white
+}
+
+.story-reader span.carousel-control-next-icon,
+.story-reader span.carousel-control-prev-icon {
+  display: none
+}

@@ -1,0 +1,4 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+#prevent pushing changes to local installs of nodemon/react/redux/etc.
+/node_modules/*

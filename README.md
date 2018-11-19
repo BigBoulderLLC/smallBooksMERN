@@ -22,6 +22,3 @@ npm run client-install
 npm run dev
 ```
 
-## Useful Links
-- https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi/related?hl=en
-- https://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html

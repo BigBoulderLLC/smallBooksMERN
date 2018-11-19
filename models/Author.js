@@ -11,12 +11,12 @@ const AuthorSchema = new Schema({
     type: String
   },
   authorImage: {
-    //Should we require an email?
+    //how will this be implemented?
     type: String
   },
   createdDate: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   createdBy: {
     type: String,
@@ -24,7 +24,7 @@ const AuthorSchema = new Schema({
   },
   updatedDate: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   },
   updatedBy: {
     type: String,
