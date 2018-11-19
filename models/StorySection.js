@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 // create Schema
 const StorySectionSchema = new Schema({
+  storyId: {
+    type: Schema.Types.ObjectId
+  },
   title: {
     type: String
   },

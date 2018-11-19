@@ -11,11 +11,16 @@ const StorySection = require('../../models/StorySection');
 // @desc    Get all storySections
 // @access  Public
 router.get('/', (req, res) => {
+  let errorMessage = `Get request FAILED retrieving all StorySections`;
   StorySection.find()
     .sort({createdDate: -1})
-    .then(storySection => {
+    .then(storySections => {
       res.json(storySections)
-      res.send("<div><p>Hello There</p></div>")
+    })
+    .catch((err) => {
+      console.log(errorMessage);
+      console.log(err);
+      response.json(Responses.createFailResponse(errorMessage));
     })
 });
 
@@ -29,6 +34,24 @@ router.get('/:id', (request, response) => {
     .then((storySection) => {
       console.log(successMessage);
       response.json(storySection);
+    })
+    .catch((err) => {
+      console.log(errorMessage);
+      console.log(err);
+      response.json(Responses.createFailResponse(errorMessage));
+    })
+});
+
+// @route   GET api/storySections/:storyId
+// @desc    Get a specific set of  storySections by story ID
+// @access  Public
+router.get('/:storyId', (request, response) => {
+  let successMessage = `GET request retrieved StorySections with storyId: ${request.params.storyId}`;
+  let errorMessage = `Get request FAILED retrieving StorySections with storyId: ${request.params.storyId}`;
+  StorySection.find({storyId: new ObjectID(request.params.storyId)})
+    .then((storySections) => {
+      console.log(successMessage);
+      response.json(storySections);
     })
     .catch((err) => {
       console.log(errorMessage);

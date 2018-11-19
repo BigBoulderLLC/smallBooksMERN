@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 // create Schema
 const ShortStorySchema = new Schema({
+  authorId: {
+    type: Schema.Types.ObjectId
+  },
   name: {
     type: String,
     required: true
@@ -12,9 +15,6 @@ const ShortStorySchema = new Schema({
   },
   story: {
     type: String
-  },
-  authorId: {
-    type: Integer
   },
   author: {
     type: String,

@@ -4,6 +4,12 @@ export const ADD_STORY = "ADD_STORY";
 export const DELETE_STORY = "DELETE_STORY";
 export const STORIES_LOADING = "STORIES_LOADING";
 
+//Story Sections
+export const GET_STORY_SECTIONS = "GET_STORY_SECTIONS";
+export const ADD_STORY_SECTION = "ADD_STORY_SECTION";
+export const DELETE_STORY_SECTION = "DELETE_STORY_SECTION";
+export const STORY_SECTIONS_LOADING = "STORY_SECTIONS_LOADING";
+
 //Authors
 export const GET_AUTHORS = "GET_AUTHORS";
 export const ADD_AUTHOR = "ADD_AUTHOR";
