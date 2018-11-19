@@ -3,6 +3,7 @@ const express = require('express');
 const Account = require('../../models/Account');
 const Router = express.Router();
 const Responses = require('../../lib/Responses');
+const session = require('express-session');
 
 const ResponseGenerator = new Responses();
 
@@ -22,9 +23,11 @@ Router.post('/register', (req, res) => {
     password: req.body.password,
     passwordConf: req.body.passwordConf
   })
-  console.log(account)
   account.save()
-    .then(account => res.json(ResponseGenerator.createSuccessResponse("Account Created.")))
+    .then(account => {
+      req.session.userId = account.id
+      res.json(ResponseGenerator.createSuccessResponse("Account Created."))
+    })
     .catch((err) => {
       console.log(err)
       res.json(ResponseGenerator.createFailResponse("Account Creation Failed."))
@@ -35,13 +38,15 @@ Router.post('/register', (req, res) => {
 //   res.render('login', {user: req.user, error: null})
 // });
 
-Router.post('/login', (req, res, next) => {
-  req.session.save((err) => {
+Router.post('/login', (req, res) => {
+  Account.findOne({username:req.body.username}, (err, user) => {
     if (err) {
-      return next(err);
+      console.log(err)
+      return
     }
-    res.redirect('/');
-  });
+    req.session.userId = user._id
+    console.log(req.session)
+  })
 });
 
 // Router.get('/logout', (req,res,next) => {

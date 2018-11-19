@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -25,23 +24,22 @@ mongoose
     console.log(err)
   });
 
+// Session information
+app.use(cookieParser());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 // use routes
 app.use('/api/short-stories', shortStories);
 app.use('/api/user', users);
 app.use('/api/account', accounts);
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
-}));
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// const Account = require('./models/account');
-// passport.use(new LocalStrategy(Account.authenticate()));
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
 app.use('/api/authors', authors);
+
+
+
 
 const port = process.env.PORT || 5000;
 
