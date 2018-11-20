@@ -22,7 +22,7 @@ Router.post('/register', (req, res) => {
     username: req.body.username,
     password: req.body.password,
     passwordConf: req.body.passwordConf
-  })
+  });
   account.save()
     .then(account => {
       req.session.userId = account.id
@@ -46,7 +46,7 @@ Router.post('/login', (req, res) => {
     }
     req.session.userId = user._id
     console.log(req.session)
-  })
+  });
 });
 
 // Router.get('/logout', (req,res,next) => {

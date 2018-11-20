@@ -29,3 +29,17 @@
 .story-reader span.carousel-control-prev-icon {
   display: none
 }
+
+.tab-container {
+  margin:20px;
+
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.login-container {
+  padding-left:150px;
+  padding-right:150px;
+}

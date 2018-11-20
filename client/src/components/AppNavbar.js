@@ -44,13 +44,13 @@ class AppNavbar extends Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://help.github.com/articles/basic-writing-and-formatting-syntax/">
-                  <FontAwesomeIcon icon="cog" /> Account Settings
+                  <NavLink href="/signup">
+                    Sign Up
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://help.github.com/articles/basic-writing-and-formatting-syntax/">
-                  <FontAwesomeIcon icon="cog" /> Account Settings
+                  <NavLink href="/login">
+                    Log In
                   </NavLink>
                 </NavItem>
               </Nav>
