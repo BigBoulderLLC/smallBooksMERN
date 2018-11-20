@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import {
-  Container,
   CardHeader,
   Card,
   CardBody,
-  CardSubtitle,
-  CardLink,
   CardTitle,
-  CardText,
-  ListGroup,
-  ListGroupItem
+  CardText
 } from 'reactstrap';
 import ShortStoryList from './ShortStoryList';
 import PropTypes from 'prop-types';

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import BrowseAuthors from './components/BrowseAuthors';
-import StoryReader from './components/StoryReader';
+import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {
-  Container
- } from 'reactstrap';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 /* Import for our store and redux */
 import { Provider } from 'react-redux';
@@ -41,7 +38,6 @@ class App extends Component {
   render() {
     let browseShortStories = () => {
       return(
-        //<StoryReader/>
         <BrowseShortStories/>
       );
     }
@@ -50,6 +46,13 @@ class App extends Component {
       return(
         <BrowseAuthors/>
       );
+    }
+
+    let viewShortStory = ({match}) => {
+      const storyId = match.params.storyId;
+      return (
+        <ViewShortStory storyId={storyId}/>
+      )
     }
 
     return (
@@ -64,6 +67,7 @@ class App extends Component {
             <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />
+              <Route path="/story/:storyId" component={viewShortStory} />
             </div>
           </Router>
 

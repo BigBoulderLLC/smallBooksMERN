@@ -42,13 +42,13 @@ router.get('/:id', (request, response) => {
     })
 });
 
-// @route   GET api/storySections/:storyId
+// @route   GET api/storySections/storyId/:storyId
 // @desc    Get a specific set of  storySections by story ID
 // @access  Public
-router.get('/:storyId', (request, response) => {
+router.get('/storyId/:storyId', (request, response) => {
   let successMessage = `GET request retrieved StorySections with storyId: ${request.params.storyId}`;
   let errorMessage = `Get request FAILED retrieving StorySections with storyId: ${request.params.storyId}`;
-  StorySection.find({storyId: new ObjectID(request.params.storyId)})
+  StorySection.find({storyId: request.params.storyId})
     .then((storySections) => {
       console.log(successMessage);
       response.json(storySections);

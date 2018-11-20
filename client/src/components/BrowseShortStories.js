@@ -6,7 +6,7 @@ import {Container} from 'reactstrap';
 class BrowseShortStories extends Component {
   render() {
     return (
-      <Container>
+      <Container style={{height: '100%'}}>
         <ShortStoryModal />
         <ShortStoryList />
       </Container>

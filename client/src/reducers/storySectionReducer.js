@@ -13,8 +13,8 @@ export default function(state = initialState, action) {
         ...state,
         storySections: action.payload,
         storySectionsLoading:false
-      }
-    case ADD_STORY_SECTION: 
+      };
+    case ADD_STORY_SECTION:
       return {
         ...state,
         storySections: [action.payload, ...state.storySections]

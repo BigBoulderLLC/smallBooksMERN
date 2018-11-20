@@ -11,6 +11,16 @@ export const getStories = () => dispatch => {
     }))
 }
 
+export const getStoryById = id => dispatch => {
+  dispatch(setStoriesLoading());
+  axios
+    .get(`/api/short-stories/${id}`)
+    .then(res => dispatch({
+      type:GET_STORIES,
+      payload: res.data
+    }))
+}
+
 export const addStory = story => dispatch => {
   axios
     .post('/api/short-stories', story)

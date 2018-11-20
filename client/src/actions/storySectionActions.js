@@ -11,6 +11,26 @@ export const getStorySections = () => dispatch => {
     }))
 }
 
+export const getStorySectionsById = id => dispatch => {
+  dispatch(setStorySectionsLoading());
+  axios
+    .get(`/api/story-sections/${id}`)
+    .then(res => dispatch({
+      type:GET_STORY_SECTIONS,
+      payload: res.data
+    }))
+}
+
+export const getStorySectionsByStoryId = storyId => dispatch => {
+  dispatch(setStorySectionsLoading());
+  axios
+    .get(`/api/story-sections/storyId/${storyId}`)
+    .then(res => dispatch({
+      type:GET_STORY_SECTIONS,
+      payload: res.data
+    }))
+}
+
 export const addStorySection = story => dispatch => {
   axios
     .post('/api/story-sections', story)

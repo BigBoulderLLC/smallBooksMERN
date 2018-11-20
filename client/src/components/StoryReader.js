@@ -4,22 +4,20 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption,
   Card,
   CardBody,
   CardSubtitle,
   CardTitle,
-  CardFooter,
   CardText
 } from 'reactstrap';
 
 class StoryReader extends Component {
 
-  book = 
+  book =
   {
-    title: "",
-    authorName: "",
-    bookText: ""
+    title: "Test",
+    authorName: "Test",
+    bookText: "Test"
   };
 
   pageTextCharLength = 1000;
@@ -132,7 +130,7 @@ class StoryReader extends Component {
             style={heightStyle}
 	          onExiting={this.onExiting}
 	          onExited={this.onExited}
-	          key={storyPage.pageNumber}
+	          key={storyPage}
 	        >
 	          <Card style={heightStyle}>
 	          	<CardBody>
