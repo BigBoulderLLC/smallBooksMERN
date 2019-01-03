@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { Redirect } from "react-router-dom";
 
 import Signup from './Signup';
+import Login from './Login';
 
 class UserSiteAccess extends Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class UserSiteAccess extends Component {
               <TabPane tabId="login">
                 <Row>
                   <Col sm="12">
-                  
+                    <Login />
                   </Col>
                 </Row>
               </TabPane>

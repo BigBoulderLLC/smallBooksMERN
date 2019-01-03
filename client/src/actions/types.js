@@ -6,10 +6,12 @@ export const STORIES_LOADING = "STORIES_LOADING";
 
 // Authentication
 export const LOGIN = "LOGIN";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 export const REGISTER = "REGISTER";
 export const REGISTERING = "REGISTERING";
-export const LOGGINGIN = "LOGGINGIN";
+export const LOGGING_IN = "LOGGING_IN";
 
 //Authors
 export const GET_AUTHORS = "GET_AUTHORS";
