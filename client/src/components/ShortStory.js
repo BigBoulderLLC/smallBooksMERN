@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
+import StoryReader from './StoryReader';
 import {
   Container
 } from 'reactstrap';
+import { connect } from 'react-redux';
+import {getStorySectionsByStoryId} from '../actions/storySectionActions';
 import PropTypes from 'prop-types';
 
 class ShortStory extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      story: this.props.story
-    }
+  state = {
+    story: this.props.story,
+    storySectionId: 0
+  }
+
+  componentDidMount() {
+    this.props.getStorySectionsByStoryId(this.props.story._id);
   }
 
   render() {
+    const storySections = this.props.storySections.storySections;
+    const storySectionsLoading = this.props.storySections.storySectionsLoading;
+    if (!storySectionsLoading && storySections.length > 0) {
+      return(
+        <StoryReader storySection={storySections[0]} authorName={this.props.story.authorName}/>
+      );
+    }
     return(
-      <Container>
-        <h1>{this.state.story.name}</h1>
-        <p><em>By: {this.state.story.author}</em></p>
-        <br />
-        <p>
-          {this.state.story.story}
-        </p>
-      </Container>
+      <Container></Container>
     );
   }
 }
 
 ShortStory.propTypes = {
-  story: PropTypes.object.isRequired
+  getStorySectionsByStoryId: PropTypes.func.isRequired,
+  storySections: PropTypes.object.isRequired
 }
 
-export default ShortStory;
+const mapStateToProps = (state) => ({
+  storySections: state.storySection
+});
+
+export default connect(mapStateToProps, { getStorySectionsByStoryId })(ShortStory);

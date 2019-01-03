@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import UserSiteAccess from './components/UserSiteAccess';
 import BrowseAuthors from './components/BrowseAuthors';
+import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
 import UserProfile from './components/UserProfile';
 import { BrowserRouter as Router, Route} from "react-router-dom";
@@ -70,6 +71,13 @@ class App extends Component {
       );
     }
 
+    let viewShortStory = ({match}) => {
+      const storyId = match.params.storyId;
+      return (
+        <ViewShortStory storyId={storyId}/>
+      );
+    }
+      
     const signup = () => {
       return(
         <UserSiteAccess activeTab="signup"/>
@@ -89,7 +97,8 @@ class App extends Component {
     }
 
     return (
-        <div className="App">
+      <Provider store={store}>
+        <div className="App" style={{height: '100%'}}>
 
           <header className="App-header">
             <AppNavBar />
@@ -108,9 +117,10 @@ class App extends Component {
             </Button>
           </Container> */}
           <Router>
-            <div>
+            <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />
+              <Route path="/story/:storyId" component={viewShortStory} />
               <Route path="/signup" component={signup} />
               <Route path="/login" component={login} />
               <Route path="/profile" component={userProfile} />
