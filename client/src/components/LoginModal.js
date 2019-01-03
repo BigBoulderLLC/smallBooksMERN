@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register } from '../actions/registerActions'; 
+import { register, login } from '../actions/registerActions'; 
 
 class LoginModal extends Component {
   constructor(props) {
@@ -94,11 +94,12 @@ class LoginModal extends Component {
 }
 
 LoginModal.propTypes = {
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
   register: state.shortStory
 });
 
-export default connect(mapStateToProps, { register })(LoginModal);
+export default connect(mapStateToProps, { register, login })(LoginModal);
