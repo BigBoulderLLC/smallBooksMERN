@@ -9,7 +9,6 @@ import {
   NavLink,
   Container
 } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class AppNavbar extends Component {
   state = {
@@ -44,13 +43,13 @@ class AppNavbar extends Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://help.github.com/articles/basic-writing-and-formatting-syntax/">
-                    Saved Stories
+                  <NavLink href="/signup">
+                    Sign Up
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://help.github.com/articles/basic-writing-and-formatting-syntax/">
-                  <FontAwesomeIcon icon="cog" /> Account Settings
+                  <NavLink href="/login">
+                    Log In
                   </NavLink>
                 </NavItem>
               </Nav>

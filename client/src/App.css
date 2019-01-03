@@ -88,3 +88,43 @@ tab {
 .story-reader .carousel-indicators {
   display: none
 }
+
+.tab-container {
+  margin:20px;
+
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.login-container {
+  padding-left:150px;
+  padding-right:150px;
+}
+
+.user-profile-header {
+  display:flex;
+  margin-bottom:2rem;
+}
+
+.user-profile-header h1 {
+  flex:8;
+  margin-bottom:0
+}
+
+.user-profile-header button {
+  flex:1
+}
+
+.textField {
+  display: flex;
+}
+
+.fieldLabel {
+  flex:1
+}
+
+.fieldValue {
+  flex:5
+}
