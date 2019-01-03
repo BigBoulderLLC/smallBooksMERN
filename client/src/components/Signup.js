@@ -39,6 +39,7 @@ class Signup extends Component {
       passwordConf:"IDK what this is"
     })
     sessionStorage.setItem("username", this.state.username)
+    sessionStorage.setItem("email", this.state.email)
     this.props.setLogin(true);
   }
 

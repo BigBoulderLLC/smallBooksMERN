@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Container, Button} from 'reactstrap';
+import TextFieldReadOnly from './TextFieldReadOnly';
 // import {
 //   Form,
 //   FormGroup,
@@ -13,7 +14,8 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditMode: false
+      isEditMode: false,
+      fullName: "Harry Osborne"
     }
     this.toggleEditMode = this.toggleEditMode.bind(this)
   }
@@ -27,16 +29,19 @@ class UserProfile extends Component {
   }
 
   render() {
-    const username = sessionStorage.getItem("username");
+    let username = sessionStorage.getItem("username");
+    let email = sessionStorage.getItem("email");
     return(
       <Container>
-        <div>
+        <div className="user-profile-header">
           <h1>Hello <em>{username}</em></h1>
           <Button
             onClick={this.toggleEditMode}
           >Edit Profile</Button>
         
         </div>
+        <TextFieldReadOnly fieldLabel="Primary Email" fieldValue={email}/>
+        <TextFieldReadOnly fieldLabel="Full Name" fieldValue={this.state.fullName}/>
       </Container>
     )
   }
