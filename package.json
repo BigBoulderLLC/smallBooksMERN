@@ -4,7 +4,7 @@
   "description": "An application for finding and sharing short stories.",
   "main": "server.js",
   "scripts": {
-    "client-install": "cd client && npm install && npm i bootstrap reactstrap uuid react-transition-group redux react-redux redux-thunk axios @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom",
+    "client-install": "cd client && npm install && npm i bootstrap reactstrap uuid react-transition-group redux react-redux redux-thunk axios @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom && npm install typeface-roboto --save",
     "server-install": "npm install express mongoose concurrently && npm install -D nodemon",
     "start": "node server.js",
     "server": "nodemon server.js",
@@ -14,12 +14,13 @@
   "author": "Jake Grafenstein",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^4.0.1",
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
-    "mongoose": "^5.3.11",
-    "node": "^11.0.0"
+    "mongoose": "^5.4.0",
+    "node": "^11.0.0",
+    "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6"
+    "nodemon": "^1.18.9"
   }
 }

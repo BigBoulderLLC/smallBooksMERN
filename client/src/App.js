@@ -63,7 +63,7 @@ class App extends Component {
             <AppNavBar />
           </header>
 
-          <Router>
+          <Router id="RouterId">
             <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />
