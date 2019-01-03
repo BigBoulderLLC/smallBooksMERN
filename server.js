@@ -38,9 +38,6 @@ app.use('/api/user', users);
 app.use('/api/account', accounts);
 app.use('/api/authors', authors);
 
-
-
-
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

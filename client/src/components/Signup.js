@@ -19,15 +19,15 @@ class Signup extends Component {
       username:this.props.username,
       password:this.props.password
     }
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    console.log(`Login Modal Component: showModal = ${this.state.showModal}`);
+    this.onSubmit = this.onSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
+    console.log(`Login Modal Component: showModal = ${this.state.showModal}`)
   }
 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    });
+    })
   }
   
   onSubmit = e => {
@@ -37,12 +37,14 @@ class Signup extends Component {
       username:this.state.username,
       password:this.state.password,
       passwordConf:"IDK what this is"
-    });
+    })
+    sessionStorage.setItem("username", this.state.username)
+    this.props.setLogin(true);
   }
 
   render() {
     return(
-      <div class="tab-container">
+      <div className="tab-container">
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label for="email">Email</Label>
@@ -77,6 +79,6 @@ Signup.propTypes = {
 
 const mapStateToProps = (state) => ({
   register: state.shortStory
-});
+})
 
-export default connect(mapStateToProps, { register, login })(Signup);
+export default connect(mapStateToProps, { register, login })(Signup)

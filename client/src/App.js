@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
-import LoginModal from './components/LoginModal';
-import { Container, Button } from 'reactstrap';
 import UserSiteAccess from './components/UserSiteAccess';
 import BrowseAuthors from './components/BrowseAuthors';
 import BrowseShortStories from './components/BrowseShortStories';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import UserProfile from './components/UserProfile';
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import {
+  Button
+} from 'reactstrap';
 /* Import for our store and redux */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -36,8 +37,13 @@ library.add(
 )
 
 class App extends Component {
-  state = {
-    showLoginModal:false
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoginModal:false
+    }
+    this.toggleLoginModal = this.toggleLoginModal.bind(this)
+    this.logOut = this.logOut.bind(this)
   }
 
   toggleLoginModal = () => {
@@ -45,6 +51,10 @@ class App extends Component {
       showLoginModal: !this.state.showLoginModal
     })
     console.log(`Login Model? : ${this.state.showLoginModal}`);
+  }
+
+  logOut = () => {
+    sessionStorage.clear()
   }
 
   render() {
@@ -72,12 +82,21 @@ class App extends Component {
       )
     }
 
+    const userProfile = () => {
+      return(
+        <UserProfile />
+      )
+    }
+
     return (
         <div className="App">
 
           <header className="App-header">
             <AppNavBar />
           </header>
+          <div>
+            <Button onClick={this.logOut}>Log Out</Button>
+          </div>
           {/* <UserSiteAccess /> */}
           {/* <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
           <Container>
@@ -94,6 +113,7 @@ class App extends Component {
               <Route path="/authors" component={browseAuthors} />
               <Route path="/signup" component={signup} />
               <Route path="/login" component={login} />
+              <Route path="/profile" component={userProfile} />
             </div>
           </Router>
 

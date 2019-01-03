@@ -9,7 +9,6 @@ import {
   NavLink,
   Container
 } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class AppNavbar extends Component {
   state = {
