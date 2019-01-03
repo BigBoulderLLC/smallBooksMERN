@@ -26,8 +26,6 @@ const Account = new Schema({
 
 Account.pre('save', function(next) {
   let account = this
-  console.log("I'm here")
-  console.log(account);
   bcrypt.hash(account.password, 10, function(err, hash) {
     if (err) {
       return next(err)
@@ -37,26 +35,24 @@ Account.pre('save', function(next) {
   })
 })
 
-Account.statics.authenticate = (email, password, callback) => {
-  Account.findOne({email: email})
+Account.statics.authenticate = (username, password, callback) => {
+  Account.findOne({username: username})
     .exec((err, account) => {
       if (err) {
         return callback(err)
       } else if (!account) {
-        let err = new Error('User not found.');
-        err.status = 401;
+        let err = new Error('User not found.')
+        err.status = 401
         return callback(err)
       }
       bcrypt.compare(password, account, (err, result) => {
         if (result === true) {
-          return callback(null, account);
+          return callback(null, account)
         } else {
-          return callback();
+          return callback()
         }
       })
     })
 }
-
-// Account.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('accounts', Account)

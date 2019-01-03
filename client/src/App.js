@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
-import LoginModal from './components/LoginModal';
-import { Container, Button } from 'reactstrap';
+import UserSiteAccess from './components/UserSiteAccess';
 import BrowseAuthors from './components/BrowseAuthors';
 import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import UserProfile from './components/UserProfile';
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import {
+  Button
+} from 'reactstrap';
 /* Import for our store and redux */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -36,8 +38,13 @@ library.add(
 )
 
 class App extends Component {
-  state = {
-    showLoginModal:false
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoginModal:false
+    }
+    this.toggleLoginModal = this.toggleLoginModal.bind(this)
+    this.logOut = this.logOut.bind(this)
   }
 
   toggleLoginModal = () => {
@@ -47,14 +54,18 @@ class App extends Component {
     console.log(`Login Model? : ${this.state.showLoginModal}`);
   }
 
+  logOut = () => {
+    sessionStorage.clear()
+  }
+
   render() {
-    let browseShortStories = () => {
+    const browseShortStories = () => {
       return(
         <BrowseShortStories/>
       );
     }
 
-    let browseAuthors = () => {
+    const browseAuthors = () => {
       return(
         <BrowseAuthors/>
       );
@@ -64,6 +75,24 @@ class App extends Component {
       const storyId = match.params.storyId;
       return (
         <ViewShortStory storyId={storyId}/>
+      );
+    }
+      
+    const signup = () => {
+      return(
+        <UserSiteAccess activeTab="signup"/>
+      )
+    }
+
+    const login = () => {
+      return(
+        <UserSiteAccess activeTab="login"/>
+      )
+    }
+
+    const userProfile = () => {
+      return(
+        <UserProfile />
       )
     }
 
@@ -74,7 +103,11 @@ class App extends Component {
           <header className="App-header">
             <AppNavBar />
           </header>
-          <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
+          <div>
+            <Button onClick={this.logOut}>Log Out</Button>
+          </div>
+          {/* <UserSiteAccess /> */}
+          {/* <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
           <Container>
             <Button
               onClick = {this.toggleLoginModal}
@@ -82,12 +115,15 @@ class App extends Component {
             >
               Log In
             </Button>
-          </Container>
+          </Container> */}
           <Router>
             <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />
               <Route path="/story/:storyId" component={viewShortStory} />
+              <Route path="/signup" component={signup} />
+              <Route path="/login" component={login} />
+              <Route path="/profile" component={userProfile} />
             </div>
           </Router>
 
