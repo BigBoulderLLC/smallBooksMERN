@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "client-install": "cd client && npm install && npm i bootstrap reactstrap react-router-dom uuid react-transition-group redux react-redux redux-thunk axios react-cookie @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom && npm install typeface-roboto --save",
-    "server-install": "npm install express mongoose concurrently bcrypt && npm install -D nodemon",
+    "server-install": "npm install jsonwebtoken express mongoose concurrently bcrypt && npm install -D nodemon",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
@@ -19,6 +19,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.1",
     "node": "^11.6.0",
     "typeface-roboto": "0.0.54",

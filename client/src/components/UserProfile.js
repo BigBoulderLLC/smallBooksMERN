@@ -29,8 +29,8 @@ class UserProfile extends Component {
   }
 
   render() {
-    let username = sessionStorage.getItem("username");
-    let email = sessionStorage.getItem("email");
+    const username=""
+    const email=""
     return(
       <Container>
         <div className="user-profile-header">

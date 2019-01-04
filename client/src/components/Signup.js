@@ -5,11 +5,12 @@ import {
   Label,
   Input,
   Button,
-  FormText
+  FormText,
+  FormFeedback
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register, login } from '../actions/registerActions'; 
+import { register } from '../actions/registerActions'; 
 
 class Signup extends Component {
   constructor(props) {
@@ -17,11 +18,17 @@ class Signup extends Component {
     this.state = {
       email:this.props.email,
       username:this.props.username,
-      password:this.props.password
+      password:this.props.password,
+      registrationResult:{},
+      usernameError:false,
+      emailError:false,
+      generalError:false,
+      usernameErrorMessage:"",
+      emailErrorMessage:"",
+      generalErrorMessage:""
     }
     this.onSubmit = this.onSubmit.bind(this)
     this.onChange = this.onChange.bind(this)
-    console.log(`Login Modal Component: showModal = ${this.state.showModal}`)
   }
 
   onChange = e => {
@@ -35,12 +42,34 @@ class Signup extends Component {
     this.props.register({
       email:this.state.email,
       username:this.state.username,
-      password:this.state.password,
-      passwordConf:"IDK what this is"
+      password:this.state.password
     })
-    sessionStorage.setItem("username", this.state.username)
-    sessionStorage.setItem("email", this.state.email)
-    this.props.setLogin(true);
+    this.props.setLogin(true)
+
+    /* TO DO -- Set error messages on form when mongoose returns an error */
+    // if (response.success) {
+    //   console.log("No Error occurred")
+    //   this.props.setLogin(true);
+    // } else {
+    //   console.log("Error occurred")
+    //   console.log(response)
+    //   if (response.includes("Username")) {
+    //     this.setState({
+    //       usernameError:true,
+    //       usernameErrorMessage:response
+    //     })
+    //   } else if (response.includes("Email")) {
+    //     this.setState({
+    //       emailError:true,
+    //       emailErrorMessage: response
+    //     })
+    //   } else {
+    //     this.setState({
+    //       generalError:true,
+    //       generalErrorMessage: "Unknown error occurred."
+    //     })
+    //   }
+    // }
   }
 
   render() {
@@ -49,11 +78,31 @@ class Signup extends Component {
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label for="email">Email</Label>
-            <Input type="email" name="email" id="email" placeholder="Enter a valid email address" onChange={this.onChange} />
+            <Input 
+              type="email" 
+              name="email" 
+              id="email" 
+              placeholder="Enter a valid email address" 
+              onChange={this.onChange}
+              invalid={this.state.emailError}
+            />
+            <FormFeedback invalid>
+              {this.state.emailErrorMessage}
+            </FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label for="username">Username</Label>
-            <Input type="username" name="username" id="username" placeholder="Enter a valid email address" onChange={this.onChange} />
+            <Input 
+              type="username" 
+              name="username" 
+              id="username" 
+              placeholder="Enter a valid email address" 
+              onChange={this.onChange} 
+              invalid={ this.state.usernameError }
+            />
+            <FormFeedback invalid>
+              {this.state.usernameErrorMessage}
+            </FormFeedback>
             <FormText>Your username can't be changed, so choose wisely.</FormText>
           </FormGroup>
           <FormGroup>
@@ -74,12 +123,11 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-  register: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  register: state.shortStory
+  register: state.registrationResult
 })
 
-export default connect(mapStateToProps, { register, login })(Signup)
+export default connect(mapStateToProps, { register })(Signup)

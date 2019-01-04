@@ -6,6 +6,7 @@ const Responses = require('../../lib/Responses');
 const session = require('express-session');
 
 const ResponseGenerator = new Responses();
+const Tokenizer = require('../../lib/Tokenizer');
 
 
 Router.get('/', (req, res) => {
@@ -25,12 +26,23 @@ Router.post('/register', (req, res) => {
   });
   account.save()
     .then(account => {
-      req.session.userId = account.id
-      res.json(ResponseGenerator.createSuccessResponse("Account Created."))
+      let username = account.username
+      let response = ResponseGenerator.createSuccessResponse("Account Created")
+      let options = {
+        issuer: "https://smallBooks.com",
+        subject: "smallBooks",
+        audience: "dev-api",
+        expiresIn: "12h",
+        algorithm: "RS256"
+      }
+      let token = Tokenizer.sign({username:username}, options);
+      response["token"] = token
+      response["username"] = username
+      res.json(response)
     })
     .catch((err) => {
-      console.log(err)
-      res.json(ResponseGenerator.createFailResponse("Account Creation Failed."))
+      // console.log(err)
+      res.json(ResponseGenerator.createFailResponse(err))
     });
 });
 
@@ -39,14 +51,29 @@ Router.post('/register', (req, res) => {
 // });
 
 Router.post('/login', (req, res) => {
-  Account.findOne({username:req.body.username}, (err, user) => {
+  console.log(req.body)
+  let username = req.body.username
+  let password = req.body.password
+  Account.authenticate(username, password, (err, user) => {
     if (err) {
       console.log(err)
-      return
-    }
-    req.session.userId = user._id
-    console.log(req.session)
-  });
+      res.json(ResponseGenerator.createFailResponse("Login Failed")) 
+    } else {
+      let options = {
+        issuer: "https://smallBooks.com",
+        subject: "smallBooks",
+        audience: "dev-api",
+        expiresIn: "12h",
+        algorithm: "RS256"
+      }
+      let token = Tokenizer.sign({username:req.body.username}, options);
+      let response = ResponseGenerator.createSuccessResponse("Login Successful")
+      response["token"] = token
+      response["username"] = username
+      console.log(response)
+      res.json(response)
+    } 
+  })
 });
 
 // Router.get('/logout', (req,res,next) => {

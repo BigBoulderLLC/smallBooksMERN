@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { Redirect } from "react-router-dom";
 
 import Signup from './Signup';
+import Login from './Login';
 
 class UserSiteAccess extends Component {
   constructor(props) {
@@ -42,7 +43,6 @@ class UserSiteAccess extends Component {
   }
 
   render() {
-    console.log(`Logged in? ${this.state.isLoggedIn}, rendering...`)
     if (this.state.isLoggedIn) {
       return( <Redirect to="/profile"/>)
     } else {
@@ -70,7 +70,7 @@ class UserSiteAccess extends Component {
               <TabPane tabId="login">
                 <Row>
                   <Col sm="12">
-                  
+                    <Login setLogin={this.setLogin}/>
                   </Col>
                 </Row>
               </TabPane>
