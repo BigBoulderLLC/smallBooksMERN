@@ -8,6 +8,6 @@ import loginReducer from './loginReducer';
 export default combineReducers({
   shortStory: shortStoryReducer,
   storySection: storySectionReducer,
-  author: authorProfileReducer
+  author: authorProfileReducer,
   login: loginReducer
 });
