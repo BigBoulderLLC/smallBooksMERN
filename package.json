@@ -4,7 +4,7 @@
   "description": "An application for finding and sharing short stories.",
   "main": "server.js",
   "scripts": {
-    "client-install": "cd client && npm install && npm i bootstrap reactstrap react-router-dom uuid react-transition-group redux react-redux redux-thunk axios react-cookie @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease",
+    "client-install": "cd client && npm install && npm i bootstrap reactstrap react-router-dom uuid react-transition-group redux react-redux redux-thunk axios react-cookie @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom && npm install typeface-roboto --save",
     "server-install": "npm install jsonwebtoken express mongoose concurrently bcrypt && npm install -D nodemon",
     "start": "node server.js",
     "server": "nodemon server.js",
@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.1",
     "node": "^11.6.0",
+    "typeface-roboto": "0.0.54",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"

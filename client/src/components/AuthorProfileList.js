@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
 import AuthorProfile from './AuthorProfile';
-// import {
-//   Container,
-//   Button,
-//   ListGroup,
-//   ListGroupItem
-// } from 'reactstrap';
-// import {
-//   CSSTransition,
-//   TransitionGroup
-// } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getAuthors, deleteAuthor } from '../actions/authorActions';
 import PropTypes from 'prop-types';
@@ -29,7 +19,6 @@ class AuthorProfileList extends Component {
 
   render() {
     const { authors }  = this.props.authors;
-    // const authorId = this.state.authorId;
     return(
       authors.map((author) => (
         <AuthorProfile author={author}/>

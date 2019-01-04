@@ -13,8 +13,8 @@ export default function(state = initialState, action) {
         ...state,
         shortStories: action.payload,
         loading:false
-      }
-    case ADD_STORY: 
+      };
+    case ADD_STORY:
       return {
         ...state,
         shortStories: [action.payload, ...state.shortStories]

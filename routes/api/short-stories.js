@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
     createdBy: req.body.createdBy,
     updatedBy: req.body.updatedBy
   });
-  
+
   newShortStory.save()
     .then(shortStory => res.json(shortStory))
     .catch((err) => {
@@ -91,7 +91,7 @@ router.delete('/:id', (req, res) => {
         })
         .catch(() => {
           console.log("Error occurred attempting to remove story")
-        })    
+        })
       }
     )
     .catch((err) => {

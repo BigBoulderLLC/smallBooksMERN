@@ -1,5 +1,13 @@
 /* Global Styles */
 
+dummydeclaration {
+  padding-left: 4em;
+} /* Firefox ignores first declaration for some reason */
+
+tab { 
+  padding-left: 4em;
+}
+
 .fade-enter {
   opacity: 0.01;
 }
@@ -19,14 +27,65 @@
 }
 
 .story-reader {
-  max-width: 90%;
+  max-width: 95%;
   margin: auto;
   height: 100%;
-  background: white
+  background: white;
+  font-size: 110%;
 }
 
-.story-reader span.carousel-control-next-icon,
-.story-reader span.carousel-control-prev-icon {
+.story-title {
+  font-size: 100%;
+  text-align: center;
+}
+
+.story-subtitle {
+  text-align: center;
+    font-size: 90%
+}
+
+@media (min-width: 550px) {
+  .story-title {
+      font-size: 110%
+  }
+
+  .story-subtitle {
+    font-size: 95%
+  }
+
+  .story-reader{
+    font-size: 110%
+  }
+
+}
+
+@media (min-width: 900px) {
+  .story-title {
+    font-size: 120%
+  }
+
+  .story-subtitle {
+    font-size: 90%
+  }
+
+  .story-reader{
+    font-size: 150%
+  }
+
+}
+.story-reader .carousel-inner,
+.story-reader .carousel-item {
+  height: 100%;
+}
+
+.story-reader .carousel-control-prev,
+.story-reader .carousel-control-next {
+  width: 45%;
+}
+
+.story-reader .carousel-control-next-icon,
+.story-reader .carousel-control-prev-icon,
+.story-reader .carousel-indicators {
   display: none
 }
 

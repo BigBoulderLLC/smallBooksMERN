@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ShortStory from './ShortStory';
 import {
-  Container,
   Button,
   ListGroup,
   ListGroupItem
@@ -29,25 +27,6 @@ class ShortStoryList extends Component {
 
   render() {
     const { shortStories }  = this.props.shortStories;
-    const storyID = this.state.storyId;
-    if (storyID !== 0 ) {
-      return(
-        <Container>
-          <Button
-            color="dark"
-            style={{marginBottom: '2rem'}}
-            onClick={()=> {
-              this.setState({
-                storyId: 0
-              })
-            }}
-          >Back</Button>
-          <ShortStory story={shortStories.find((shortStory) => { 
-            return shortStory._id === storyID
-          })}/>
-        </Container>
-      );
-    } else {
       return(
         <ListGroup>
           <TransitionGroup className="short-story-list">
@@ -55,18 +34,16 @@ class ShortStoryList extends Component {
               <CSSTransition key={_id} timeout={500} classNames="fade">
                 <ListGroupItem>
                   {name}
-                  <Button 
+                  <Button
                     color="dark"
                     size="sm"
                     className="pull-right"
                     onClick={() => {
-                      this.setState({
-                        storyId:_id
-                      })
+                      window.location.href = "/story/" + _id;
                     }}>
                     Read Story
                   </Button>
-                  <Button 
+                  <Button
                     color="danger"
                     size="sm"
                     className="pull-right"
@@ -81,7 +58,6 @@ class ShortStoryList extends Component {
           </TransitionGroup>
         </ListGroup>
       )
-    }
   }
 }
 

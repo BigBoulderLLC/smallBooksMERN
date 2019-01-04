@@ -17,7 +17,7 @@ class AuthorProfile extends Component {
 
   render() {
     return(
-    	<Card>
+    	<Card className="mb-3">
 
   			<CardHeader tag="h3">
             {this.props.author.authorName}

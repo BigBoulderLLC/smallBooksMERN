@@ -8,6 +8,7 @@ const app = express();
 const db = require('./config/keys').mongoURI;
 
 const shortStories = require('./routes/api/short-stories');
+const storySections = require('./routes/api/story-sections');
 const users = require('./routes/api/user');
 const accounts = require('./routes/api/account');
 const authors = require('./routes/api/authors');
@@ -23,6 +24,12 @@ mongoose
   .catch(err => {
     console.log(err)
   });
+
+// use routes
+app.use('/api/short-stories', shortStories);
+app.use('/api/story-sections', storySections);
+app.use('/api/user', users);
+app.use('/api/account', accounts);
 
 // Session information
 app.use(cookieParser());
