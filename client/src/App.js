@@ -103,6 +103,7 @@ class App extends Component {
           <header className="App-header">
             <AppNavBar />
           </header>
+<<<<<<< HEAD
           <div>
             <Button onClick={this.logOut}>Log Out</Button>
           </div>
@@ -117,6 +118,10 @@ class App extends Component {
             </Button>
           </Container> */}
           <Router id="RouterId">
+=======
+
+          <Router>
+>>>>>>> parent of c08bcd4... Story Reader mobile iteration 1
             <div style={{height: '88%'}}>
               <Route exact path="/" component={browseShortStories} />
               <Route path="/authors" component={browseAuthors} />

@@ -11,16 +11,6 @@ export const getAuthors = () => dispatch => {
     }))
 }
 
-export const getAuthorById = id => dispatch => {
-  dispatch(setAuthorsLoading());
-  axios
-    .get(`/api/authors/${id}`)
-    .then(res => dispatch({
-      type:GET_AUTHORS,
-      payload: res.data
-    }))
-}
-
 export const addAuthor = author => dispatch => {
   axios
     .post('/api/authors', author)

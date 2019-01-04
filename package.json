@@ -4,8 +4,13 @@
   "description": "An application for finding and sharing short stories.",
   "main": "server.js",
   "scripts": {
+<<<<<<< HEAD
     "client-install": "cd client && npm install && npm i bootstrap reactstrap react-router-dom uuid react-transition-group redux react-redux redux-thunk axios react-cookie @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom && npm install typeface-roboto --save",
     "server-install": "npm install express mongoose concurrently bcrypt && npm install -D nodemon",
+=======
+    "client-install": "cd client && npm install && npm i bootstrap reactstrap uuid react-transition-group redux react-redux redux-thunk axios @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom",
+    "server-install": "npm install express mongoose concurrently && npm install -D nodemon",
+>>>>>>> parent of c08bcd4... Story Reader mobile iteration 1
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
@@ -14,6 +19,7 @@
   "author": "Jake Grafenstein",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "bcrypt": "^3.0.3",
     "concurrently": "^4.1.0",
     "cookie-parser": "^1.4.3",
@@ -25,8 +31,14 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1"
+=======
+    "concurrently": "^4.0.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.11",
+    "node": "^11.0.0"
+>>>>>>> parent of c08bcd4... Story Reader mobile iteration 1
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.6"
   }
 }
