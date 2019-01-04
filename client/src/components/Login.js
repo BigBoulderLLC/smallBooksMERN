@@ -4,34 +4,33 @@ import {
   FormGroup,
   Label,
   Input,
-  Button,
-  FormText
+  Button
 } from 'reactstrap';
 
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../actions/registerActions';
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username:"",
-      password:""
+      userUsername:"",
+      userPassword:""
     }
-    this.login = this.login.bind(this)
+    this.loginAction = this.loginAction.bind(this)
     this.submit = this.submit.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
-  login(e) {
+  loginAction(e) {
     e.preventDefault()
-
-    Auth.login(this.state.username, this.state.password)
-      .catch(function(err) {
-        console.log("Error Logggin In", err)
-      })
+    this.props.login({username:this.state.userUsername, password:this.state.userPassword})
+    this.props.setLogin(true)
   }
 
   submit(e) {
-    this.login(e)
+    this.loginAction(e)
   }
 
   onChange = e => {
@@ -45,14 +44,14 @@ class Login extends Component {
       <Form onSubmit={this.submit}>
         <FormGroup>
           <Label for="username">Username</Label>
-          <Input type="username" name="username" id="username" placeholder="Enter a valid email address" onChange={this.onChange} />
+          <Input type="username" name="userUsername" id="userUsername" placeholder="Enter a valid email address" onChange={this.onChange} />
         </FormGroup>
         <FormGroup>
-          <Label for="password">Password</Label>
+          <Label for="userPassword">Password</Label>
           <Input
             type="password"
-            name="password"
-            id="password"
+            name="userPassword"
+            id="userPassword"
             placeholder="********"
             onChange={this.onChange}
           />
@@ -63,4 +62,15 @@ class Login extends Component {
   }
 }
 
-export default Login
+Login.propTypes = {
+  login: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  login: {
+    username:state.userUsername,
+    password:state.userPassword
+  }
+})
+
+export default connect(mapStateToProps, { login })(Login)

@@ -43,7 +43,6 @@ class UserSiteAccess extends Component {
   }
 
   render() {
-    console.log(`Logged in? ${this.state.isLoggedIn}, rendering...`)
     if (this.state.isLoggedIn) {
       return( <Redirect to="/profile"/>)
     } else {
@@ -71,7 +70,7 @@ class UserSiteAccess extends Component {
               <TabPane tabId="login">
                 <Row>
                   <Col sm="12">
-                    <Login />
+                    <Login setLogin={this.setLogin}/>
                   </Col>
                 </Row>
               </TabPane>

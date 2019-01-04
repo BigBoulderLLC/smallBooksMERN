@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/* Changes to Documents in this schema require verification of a JWT -> check out Tokenizer.js */
+
 // create Schema
 const AuthorSchema = new Schema({
   authorName: {

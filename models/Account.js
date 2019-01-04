@@ -1,12 +1,22 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
-// const passportLocalMongoose = require('passport-local-mongoose');
+
+const handleE11000 = function(error, res, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    let errorMessage = error.errMsg
+    let field = errorMessage.slice(indexOf('$'), indexOf('_'))
+    next(new Error('The ' + field.charAt(0).toUpperCase() + field.slice(1) + ' entered has already been claimed.'))
+  } else {
+    next();
+  }
+}
 
 const Account = new Schema({
   email: {
     type: String,
     required: true,
+    unique:true,
     trim: true
   },
   username: {
@@ -18,9 +28,17 @@ const Account = new Schema({
     type: String,
     required: true
   },
-  passwordConf: {
+  fullName: {
     type: String,
-    required: true
+    required: false
+  },
+  phoneNumber: {
+    type: String,
+    required: false
+  },
+  phoneNumberType: {
+    type: String,
+    required: false
   }
 })
 
@@ -28,6 +46,7 @@ Account.pre('save', function(next) {
   let account = this
   bcrypt.hash(account.password, 10, function(err, hash) {
     if (err) {
+      console.log("An error occurred when creating the account")
       return next(err)
     }
     account.password = hash
@@ -35,21 +54,30 @@ Account.pre('save', function(next) {
   })
 })
 
-Account.statics.authenticate = (username, password, callback) => {
-  Account.findOne({username: username})
+
+
+Account.statics.authenticate = function(username, password, callback) {
+  let myAccount = this
+  console.log("Authenticating username: " + username)
+  myAccount.findOne({username: username})
     .exec((err, account) => {
       if (err) {
         return callback(err)
       } else if (!account) {
-        let err = new Error('User not found.')
+        console.log("User " + username + " not found.")
+        let err = new Error(`User ${username} not found.`)
         err.status = 401
         return callback(err)
       }
-      bcrypt.compare(password, account, (err, result) => {
+      bcrypt.compare(password, account.password, (err, result) => {
         if (result === true) {
+          console.log("User " + username + " found")
           return callback(null, account)
         } else {
-          return callback()
+          console.log("User " + username + " not found")
+          let err = new Error(`User ${username} not found.`)
+          err.status = 401
+          return callback(err)
         }
       })
     })
