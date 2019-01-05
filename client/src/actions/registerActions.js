@@ -72,20 +72,6 @@ function rejectRegistration(err) {
   }
 }
 
-// function rejectLogout() {
-//   return {
-//     type:LOGOUT_FAILURE,
-//     isFetching:false,
-//     isAuthenticated:true
-//   }
-// }
-
-// function getExpirationDateTime() {
-//   let today = new Date()
-//   today.setHours(today.getHours() + 5)
-//   return today
-// }
-
 export const register = registrationDetails => dispatch => {
   let request = requestRegistration(registrationDetails)
   dispatch(request);
@@ -97,7 +83,6 @@ export const register = registrationDetails => dispatch => {
       if (res.data.success) {
         let token = res.data.token
         localStorage.setItem('token', token)
-        console.log(localStorage.getItem('token'))
         dispatch(receiveRegistration())
       } else {
         dispatch(rejectRegistration("Registration failed"))
@@ -107,7 +92,6 @@ export const register = registrationDetails => dispatch => {
       response = err
       dispatch(rejectRegistration(err))
     })
-  console.log(response)
   return response
 }
 
@@ -118,10 +102,7 @@ export const logout = dispatch => {
 }
 
 export const login = loginDetails => dispatch => {
-  console.log(loginDetails)
   let request = requestLogin(loginDetails)
-  console.log("I am here")
-  console.log(request)
   let response = {}
   dispatch(request)
   axios
@@ -131,7 +112,8 @@ export const login = loginDetails => dispatch => {
         response = receiveLogin(res.data.username)
         /* Save token in local storage */ 
         localStorage.setItem('token', res.data.token)
-        console.log(localStorage.getItem('token'))
+        console.log("Local storage contains a token: " + localStorage.getItem('token'))
+        console.log(localStorage)
         /* Dispatch the response to redux */
         dispatch(response)
       } else {

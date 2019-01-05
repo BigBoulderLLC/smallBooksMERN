@@ -18,12 +18,11 @@ class UserSiteAccess extends Component {
   }
 
   componentDidMount() {
-    let username = sessionStorage.getItem("username");
-    console.log(username);
-    username === undefined || username === null ? 
+    localStorage.getItem('token') === null ? 
       this.setState({isLoggedIn:false}) : 
       this.setState({isLoggedIn:true})
-    console.log(`${this.state.isLoggedIn}`);
+
+    console.log("My Token from UserSiteAccess: " + localStorage.getItem('token'))
   }
 
   toggle(tab) {
@@ -37,8 +36,6 @@ class UserSiteAccess extends Component {
   setLogin(login) {
     this.setState({
       isLoggedIn: login
-    }, function() {
-      console.log(`New login val: ${this.state.isLoggedIn}, ${login}`);
     })
   }
 

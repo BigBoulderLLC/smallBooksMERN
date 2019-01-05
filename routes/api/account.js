@@ -41,7 +41,6 @@ Router.post('/register', (req, res) => {
       res.json(response)
     })
     .catch((err) => {
-      // console.log(err)
       res.json(ResponseGenerator.createFailResponse(err))
     });
 });
@@ -51,12 +50,10 @@ Router.post('/register', (req, res) => {
 // });
 
 Router.post('/login', (req, res) => {
-  console.log(req.body)
   let username = req.body.username
   let password = req.body.password
   Account.authenticate(username, password, (err, user) => {
     if (err) {
-      console.log(err)
       res.json(ResponseGenerator.createFailResponse("Login Failed")) 
     } else {
       let options = {
@@ -70,7 +67,6 @@ Router.post('/login', (req, res) => {
       let response = ResponseGenerator.createSuccessResponse("Login Successful")
       response["token"] = token
       response["username"] = username
-      console.log(response)
       res.json(response)
     } 
   })

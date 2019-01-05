@@ -46,7 +46,6 @@ Account.pre('save', function(next) {
   let account = this
   bcrypt.hash(account.password, 10, function(err, hash) {
     if (err) {
-      console.log("An error occurred when creating the account")
       return next(err)
     }
     account.password = hash
@@ -61,11 +60,12 @@ Account.statics.authenticate = function(username, password, callback) {
   console.log("Authenticating username: " + username)
   myAccount.findOne({username: username})
     .exec((err, account) => {
+      let msg = "User " + username + " not found"
       if (err) {
         return callback(err)
       } else if (!account) {
-        console.log("User " + username + " not found.")
-        let err = new Error(`User ${username} not found.`)
+        console.log(msg)
+        let err = new Error(msg)
         err.status = 401
         return callback(err)
       }
@@ -74,8 +74,8 @@ Account.statics.authenticate = function(username, password, callback) {
           console.log("User " + username + " found")
           return callback(null, account)
         } else {
-          console.log("User " + username + " not found")
-          let err = new Error(`User ${username} not found.`)
+          console.log(msg)
+          let err = new Error(msg)
           err.status = 401
           return callback(err)
         }

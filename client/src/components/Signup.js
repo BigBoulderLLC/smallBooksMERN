@@ -47,29 +47,7 @@ class Signup extends Component {
     this.props.setLogin(true)
 
     /* TO DO -- Set error messages on form when mongoose returns an error */
-    // if (response.success) {
-    //   console.log("No Error occurred")
-    //   this.props.setLogin(true);
-    // } else {
-    //   console.log("Error occurred")
-    //   console.log(response)
-    //   if (response.includes("Username")) {
-    //     this.setState({
-    //       usernameError:true,
-    //       usernameErrorMessage:response
-    //     })
-    //   } else if (response.includes("Email")) {
-    //     this.setState({
-    //       emailError:true,
-    //       emailErrorMessage: response
-    //     })
-    //   } else {
-    //     this.setState({
-    //       generalError:true,
-    //       generalErrorMessage: "Unknown error occurred."
-    //     })
-    //   }
-    // }
+    
   }
 
   render() {
@@ -86,7 +64,7 @@ class Signup extends Component {
               onChange={this.onChange}
               invalid={this.state.emailError}
             />
-            <FormFeedback invalid>
+            <FormFeedback>
               {this.state.emailErrorMessage}
             </FormFeedback>
           </FormGroup>
@@ -98,9 +76,9 @@ class Signup extends Component {
               id="username" 
               placeholder="Enter a valid email address" 
               onChange={this.onChange} 
-              invalid={ this.state.usernameError }
+              invalid={ this.state.usernameError}
             />
-            <FormFeedback invalid>
+            <FormFeedback>
               {this.state.usernameErrorMessage}
             </FormFeedback>
             <FormText>Your username can't be changed, so choose wisely.</FormText>
