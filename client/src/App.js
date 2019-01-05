@@ -5,10 +5,11 @@ import BrowseAuthors from './components/BrowseAuthors';
 import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
 import UserProfile from './components/UserProfile';
+/* Import for our store and redux */
+import { Provider } from 'react-redux';
+import store from './store';
 import { BrowserRouter as Router, Route} from "react-router-dom";
-import {
-  Button
-} from 'reactstrap';
+
 /* Import for our store and redux */
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -37,6 +38,8 @@ library.add(
   faCheckSquare
 )
 
+const token = localStorage.getItem('token')
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -44,18 +47,14 @@ class App extends Component {
       showLoginModal:false
     }
     this.toggleLoginModal = this.toggleLoginModal.bind(this)
-    this.logOut = this.logOut.bind(this)
   }
+  
 
   toggleLoginModal = () => {
     this.setState({
       showLoginModal: !this.state.showLoginModal
     })
     console.log(`Login Model? : ${this.state.showLoginModal}`);
-  }
-
-  logOut = () => {
-    sessionStorage.clear()
   }
 
   render() {
@@ -97,36 +96,26 @@ class App extends Component {
     }
 
     return (
+      <Provider store={store}>
         <div className="App" style={{height: '100%'}}>
 
           <header className="App-header">
             <AppNavBar />
           </header>
-          <div>
-            <Button onClick={this.logOut}>Log Out</Button>
+          <div className="main-body">
+            <Router id="RouterId">
+              <div style={{height: '88%'}}>
+                <Route exact path="/" component={browseShortStories} />
+                <Route path="/authors" component={browseAuthors} />
+                <Route path="/story/:storyId" component={viewShortStory} />
+                <Route path="/signup" component={signup} />
+                <Route path="/login" component={login} />
+                <Route path="/profile" component={userProfile} />
+              </div>
+            </Router>
           </div>
-          {/* <UserSiteAccess /> */}
-          {/* <LoginModal showModal={this.state.showLoginModal} toggle={this.toggleLoginModal.bind(this)}/>
-          <Container>
-            <Button
-              onClick = {this.toggleLoginModal}
-              className="pull-right"
-            >
-              Log In
-            </Button>
-          </Container> */}
-          <Router id="RouterId">
-            <div style={{height: '88%'}}>
-              <Route exact path="/" component={browseShortStories} />
-              <Route path="/authors" component={browseAuthors} />
-              <Route path="/story/:storyId" component={viewShortStory} />
-              <Route path="/signup" component={signup} />
-              <Route path="/login" component={login} />
-              <Route path="/profile" component={userProfile} />
-            </div>
-          </Router>
-
         </div>
+      </Provider>
     );
   }
 }
