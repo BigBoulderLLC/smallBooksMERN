@@ -48,7 +48,7 @@ class App extends Component {
     }
     this.toggleLoginModal = this.toggleLoginModal.bind(this)
   }
-  
+
 
   toggleLoginModal = () => {
     this.setState({
@@ -102,7 +102,7 @@ class App extends Component {
           <header className="App-header">
             <AppNavBar />
           </header>
-          <div className="main-body">
+          <div className="main-body" style={{height: '100%'}}>
             <Router id="RouterId">
               <div style={{height: '88%'}}>
                 <Route exact path="/" component={browseShortStories} />

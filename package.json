@@ -4,8 +4,8 @@
   "description": "An application for finding and sharing short stories.",
   "main": "server.js",
   "scripts": {
-    "windows_install":"npm run windows-dependencies && npm run server-install && npm run client-install",
-    "windows-dependencies":"npm install --global --productions windows-build-tools",
+    "windows_install": "npm run windows-dependencies && npm run server-install && npm run client-install",
+    "windows-dependencies": "npm install --global --productions windows-build-tools",
     "client-install": "cd client && npm install && npm i bootstrap reactstrap react-router-dom uuid react-transition-group redux react-redux redux-thunk axios react-cookie @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-brands-svg-icons@prerelease && npm install react-router-dom && npm install typeface-roboto --save",
     "server-install": "npm install jsonwebtoken express mongoose concurrently bcrypt && npm install -D nodemon",
     "start": "node server.js",
