@@ -7,7 +7,8 @@ import {
   CardBody,
   CardSubtitle,
   CardTitle,
-  CardText
+  CardText,
+  Container
 } from 'reactstrap';
 
 
@@ -16,7 +17,6 @@ function StoryCarouselItem(props) {
   let textHeightStyle = {height: '85%'};
 
   return (
-
       <CarouselItem
         onExiting={props.onExiting}
         onExited={props.onExited}
@@ -70,12 +70,13 @@ class StoryReader extends Component {
     bookText: ""
   };
 
-  pageTextCharLength = 500;
+  pageTextMaxCharLength = 4000;
 
   pageTextPercentDecimal = .70;
   pageTextPercentLowerBoundDecimal = .65;
 
   arePagesInitialized = false;
+  isFirstPageInitialized = false;
 
   constructor(props) {
     super(props);
@@ -96,6 +97,8 @@ class StoryReader extends Component {
     this.measureText = this.measureText.bind(this);
     this.doesTextFitPage = this.doesTextFitPage.bind(this);
     this.getNewlineText = this.getNewlineText.bind(this);
+    this.handlePageInitialization = this.handlePageInitialization.bind(this);
+    this.onNextFrame = this.onNextFrame.bind(this);
 
     this.book.title = this.props.storySection.title;
     this.book.authorName = this.props.author.authorName;
@@ -121,125 +124,134 @@ class StoryReader extends Component {
   }
 
   //initializes all pages such that they will all fit within the given screen size
-  initializePages(bookText) {
-    //ensure there are no other pages;
-    this.state.storyPages = [];
-    var tempPages = [];
-    var upperBound = 0;
-    var lowerBound = 0;
-    var index = 0;
-    while (lowerBound < bookText.length) {
-      //if we can fit the rest of the story on this page, do it.
-      if (this.doesTextFitPage(bookText.substring(lowerBound, bookText.length)) < 1) {
-        upperBound = bookText.length;
-      }
-      //otherwise get the next characters to display on this page
-      else {
+  initializePages() {
 
-        //binary search for the target length
-        var currentLength = this.pageTextCharLength;
-        var searchUpper = bookText.length;
-        var searchLower = 0;
+    var bookText= this.book.bookText;
 
-        var targetHeightHit = false;
-        var hitInt;
-
-        while (!targetHeightHit) {
-          upperBound = lowerBound + currentLength;
-
-          //if this is not a space, continue to the next space
-          while(bookText.charAt(upperBound) !== ' ') {
-            upperBound++;
-            //upperbound can go up to length, because it is the location to the
-            //right of the last character in the string
-            if (upperBound > bookText.length) {
-              upperBound = bookText.length;
-              break;
-            }
-          }
-
-          //get whether we've hit out target
-          hitInt = this.doesTextFitPage(bookText.substring(lowerBound, upperBound));
-
-          if (hitInt < 0) {
-            //this is our new lower bound;
-            searchLower = currentLength;
-            var newCurrentLength = Math.ceil((currentLength + searchUpper)/2);
-            if (currentLength === newCurrentLength) {
-              targetHeightHit = true;
-            }
-            currentLength = newCurrentLength;
-          }
-          if (hitInt > 0) {
-            //this is our new upper bound;
-            searchUpper = currentLength;
-            var newCurrentLength = Math.ceil((currentLength + searchLower)/2);
-            if (currentLength === newCurrentLength) {
-              targetHeightHit = true;
-            }
-            currentLength = newCurrentLength;
-          }
-          if (hitInt === 0) {
-            targetHeightHit = true;
-          }
-
-        }
-
-
-
-      }
-
-      tempPages.push(
-        {
-          //get index
-          pageNumber: index + 1,
-          //get the text on the page
-          pageText: this.getNewlineText(bookText.substring(lowerBound, upperBound))
-        }
-      );
-
-      lowerBound = upperBound;
-      index++;
+    //ensure that the empty first page is not included in the final list of pages;
+    if (!this.isFirstPageInitialized) {
+      this.state.storyPages = [];
     }
 
-    this.state.storyPages = tempPages;
-    this.arePagesInitialized = true;
+
+    var upperBound = 0;
+    var lowerBound = 0;
+    var index = this.state.storyPages.length;
+
+    if (!bookText.substring(lowerBound, bookText.length)) {
+      return;
+    }
+
+    //if we can fit the rest of the story on this page, do it.
+    if (this.doesTextFitPage(bookText.substring(lowerBound, bookText.length)) < 1) {
+      upperBound = bookText.length;
+    }
+    //otherwise get the next characters to display on this page
+    else {
+
+      //binary search for the target length
+      var currentLength = Math.ceil(this.pageTextMaxCharLength/2);
+      var searchUpper = this.pageTextMaxCharLength;
+      var searchLower = 0;
+
+      var targetHeightHit = false;
+      var hitInt;
+
+      while (!targetHeightHit) {
+        upperBound = lowerBound + currentLength;
+
+        //if this is not a space, continue to the next space
+        while(bookText.charAt(upperBound) !== ' ') {
+          upperBound++;
+          //upperbound can go up to length, because it is the location to the
+          //right of the last character in the string
+          if (upperBound > bookText.length) {
+            upperBound = bookText.length;
+            break;
+          }
+        }
+
+        //get whether we've hit out target
+        hitInt = this.doesTextFitPage(bookText.substring(lowerBound, upperBound));
+
+        if (hitInt < 0) {
+          //this is our new lower bound;
+          searchLower = currentLength;
+          var newCurrentLength = Math.ceil((currentLength + searchUpper)/2);
+          if (currentLength === newCurrentLength) {
+            targetHeightHit = true;
+          }
+          currentLength = newCurrentLength;
+        }
+        if (hitInt > 0) {
+          //this is our new upper bound;
+          searchUpper = currentLength;
+          var newCurrentLength = Math.ceil((currentLength + searchLower)/2);
+          if (currentLength === newCurrentLength) {
+            targetHeightHit = true;
+          }
+          currentLength = newCurrentLength;
+        }
+        if (hitInt === 0) {
+          targetHeightHit = true;
+        }
+
+      }
+
+    }
+
+    var pageText = this.getNewlineText(bookText.substring(lowerBound, upperBound));
+
+    this.state.storyPages.push(
+      {
+        //get index
+        pageNumber: index + 1,
+        //get the text on the page
+        pageText: pageText
+      }
+    );
+
+    this.book.bookText = bookText.substring(upperBound, bookText.length);
+
+    this.isFirstPageInitialized = true;
+    this.arePagesInitialized = !this.book.bookText;
+
+    this.forceUpdate();
   }
 
   measureText(pText, pFontSize, pStyle, width) {
-      var lDiv = document.createElement('div');
+    var lDiv = document.createElement('div');
 
-      document.body.appendChild(lDiv);
+    document.body.appendChild(lDiv);
 
-      if (pStyle != null) {
-          lDiv.style = pStyle;
-      }
-      lDiv.style.fontSize = pFontSize;
-      lDiv.style.position = "absolute";
-      lDiv.style.left = -1000;
-      lDiv.style.top = -1000;
+    if (pStyle != null) {
+        lDiv.style = pStyle;
+    }
+    lDiv.style.className = "active carousel-item";
+    lDiv.style.fontSize = pFontSize;
+    lDiv.style.position = "absolute";
+    lDiv.style.left = -1000;
+    lDiv.style.top = -1000;
 
-      lDiv.innerHTML = pText;
+    lDiv.innerHTML = pText;
 
-      var lResult = {
-          width: (lDiv.clientWidth) % width,
-          height: (lDiv.clientHeight) * (Math.ceil(lDiv.clientWidth/width)) + pFontSize
-      };
+    var lResult = {
+        width: (lDiv.clientWidth) % width,
+        height: (lDiv.clientHeight) * (Math.ceil(lDiv.clientWidth/width)) + pFontSize
+    };
 
-      document.body.removeChild(lDiv);
-      lDiv = null;
+    document.body.removeChild(lDiv);
+    lDiv = null;
 
-      return lResult;
+    return lResult;
   }
 
   //returns 0 if the text fits the page. Returns 1 if its to large, and -1 if its too small
   doesTextFitPage(text) {
-    this.state.storyPages = [];
-
     //get the story reader's height and element
-    var rootElement = document.getElementById("StoryReaderCardBody");
+    var rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
     var rootHeight = rootElement.scrollHeight;
-    var pageTextElement = document.getElementById("StoryReaderCardText");
+    var pageTextElement = document.getElementsByClassName("card-text")[this.state.activeIndex];
 
     var style = window.getComputedStyle(pageTextElement, null).getPropertyValue('font-size');
     var fontSize = parseFloat(style);
@@ -255,9 +267,11 @@ class StoryReader extends Component {
     if (heightDecimal < this.pageTextPercentLowerBoundDecimal) {
       return -1;
     }
+    
     if (heightDecimal > this.pageTextPercentDecimal) {
       return 1;
     }
+
     return 0;
   }
 
@@ -305,20 +319,34 @@ class StoryReader extends Component {
     this.setState({ activeIndex: newIndex });
   }
 
-  componentDidMount() {
+  handlePageInitialization() {
+    //if all pages have been initialized, do not initialize any more pages
     if (this.arePagesInitialized) {
       return;
     }
 
-    this.initializePages(this.book.bookText);
-    this.forceUpdate();
+    this.onNextFrame(this.initializePages);
+  }
+
+  onNextFrame(callback) {
+    setTimeout(function () {
+        window.requestAnimationFrame(callback);
+    }, 0);
+  }
+
+  componentDidUpdate() {
+    this.handlePageInitialization();
+  }
+
+  componentDidMount() {
+    this.handlePageInitialization();
   }
 
   render() {
     let slides =
       this.state.storyPages.map((storyPage) => {
         return (
-          <StoryCarouselItem storyPage={storyPage} key={storyPage.pageNumber} book={this.book} onExiting={this.onExiting} onExited={this.onExited} forcePageHeight={this.arePagesInitialized} />
+          <StoryCarouselItem storyPage={storyPage} key={storyPage.pageNumber} book={this.book} onExiting={this.onExiting} onExited={this.onExited} forcePageHeight={this.isFirstPageInitialized} />
         );
       });
 
