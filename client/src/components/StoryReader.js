@@ -27,7 +27,7 @@ function StoryCarouselItem(props) {
           <CardBody id="StoryReaderCardBody" style={heightStyle} className="mx-3">
             <CardTitle className="story-title">{props.book.title}</CardTitle>
             <CardSubtitle className="story-subtitle">{props.book.authorName}</CardSubtitle>
-            <CardText id="StoryReaderCardText" style={props.forcePageHeight ? textHeightStyle : {}} className="mt-3 mx-2">{props.storyPage.pageText}</CardText>
+            <CardText id="StoryReaderCardText" style={props.forcePageHeight ? textHeightStyle : {}} >{props.storyPage.pageText}</CardText>
             <CardSubtitle className="story-subtitle   text-muted">{"Page " + props.storyPage.pageNumber}</CardSubtitle>
           </CardBody>
         </Card>
@@ -99,6 +99,7 @@ class StoryReader extends Component {
     this.getNewlineText = this.getNewlineText.bind(this);
     this.handlePageInitialization = this.handlePageInitialization.bind(this);
     this.onNextFrame = this.onNextFrame.bind(this);
+    this.getPageTextHeight = this.getPageTextHeight.bind(this);
 
     this.book.title = this.props.storySection.title;
     this.book.authorName = this.props.author.authorName;
@@ -118,7 +119,7 @@ class StoryReader extends Component {
         //get index
         pageNumber: 1,
         //get the text on the page
-        pageText: "a"
+        pageText: ""
       }
     );
   }
@@ -126,7 +127,7 @@ class StoryReader extends Component {
   //initializes all pages such that they will all fit within the given screen size
   initializePages() {
 
-    var bookText= this.book.bookText;
+    let bookText= this.book.bookText;
 
     //ensure that the empty first page is not included in the final list of pages;
     if (!this.isFirstPageInitialized) {
@@ -134,9 +135,9 @@ class StoryReader extends Component {
     }
 
 
-    var upperBound = 0;
-    var lowerBound = 0;
-    var index = this.state.storyPages.length;
+    let upperBound = 0;
+    let lowerBound = 0;
+    let index = this.state.storyPages.length;
 
     if (!bookText.substring(lowerBound, bookText.length)) {
       return;
@@ -150,12 +151,12 @@ class StoryReader extends Component {
     else {
 
       //binary search for the target length
-      var currentLength = Math.ceil(this.pageTextMaxCharLength/2);
-      var searchUpper = this.pageTextMaxCharLength;
-      var searchLower = 0;
+      let currentLength = Math.ceil(this.pageTextMaxCharLength/2);
+      let searchUpper = this.pageTextMaxCharLength;
+      let searchLower = 0;
 
-      var targetHeightHit = false;
-      var hitInt;
+      let targetHeightHit = false;
+      let hitInt;
 
       while (!targetHeightHit) {
         upperBound = lowerBound + currentLength;
@@ -177,7 +178,7 @@ class StoryReader extends Component {
         if (hitInt < 0) {
           //this is our new lower bound;
           searchLower = currentLength;
-          var newCurrentLength = Math.ceil((currentLength + searchUpper)/2);
+          let newCurrentLength = Math.ceil((currentLength + searchUpper)/2);
           if (currentLength === newCurrentLength) {
             targetHeightHit = true;
           }
@@ -186,7 +187,7 @@ class StoryReader extends Component {
         if (hitInt > 0) {
           //this is our new upper bound;
           searchUpper = currentLength;
-          var newCurrentLength = Math.ceil((currentLength + searchLower)/2);
+          let newCurrentLength = Math.ceil((currentLength + searchLower)/2);
           if (currentLength === newCurrentLength) {
             targetHeightHit = true;
           }
@@ -194,13 +195,45 @@ class StoryReader extends Component {
         }
         if (hitInt === 0) {
           targetHeightHit = true;
+          let targetHeight = this.getPageTextHeight(bookText.substring(lowerBound, upperBound));
+
+          let previousUpperBound;
+          while (true) {
+            previousUpperBound = upperBound;
+
+            //ensure we don't go past the final character
+            if (upperBound === bookText.length) {
+              break;
+            }
+
+            //continue to the next space
+            upperBound++;
+            while(bookText.charAt(upperBound) !== ' ' && bookText.charAt(upperBound) !== '\n') {
+              upperBound++;
+              //upperbound can go up to length, because it is the location to the
+              //right of the last character in the string
+              if (upperBound > bookText.length) {
+                upperBound = bookText.length;
+                break;
+              }
+            }
+
+            let newHeight = this.getPageTextHeight(bookText.substring(lowerBound, upperBound));
+
+            //check if we've gone too far, and take the previous one if so
+            if (newHeight > targetHeight) {
+              upperBound = previousUpperBound;
+              break;
+            }
+
+          }
         }
 
       }
 
     }
 
-    var pageText = this.getNewlineText(bookText.substring(lowerBound, upperBound));
+    let pageText = this.getNewlineText(bookText.substring(lowerBound, upperBound));
 
     this.state.storyPages.push(
       {
@@ -216,31 +249,32 @@ class StoryReader extends Component {
     this.isFirstPageInitialized = true;
     this.arePagesInitialized = !this.book.bookText;
 
+    console.log("Page Accepted");
+
     this.forceUpdate();
   }
 
-  measureText(pText, pFontSize, pStyle, width) {
-    var lDiv = document.createElement('div');
+  measureText(pText, rootElement, pFontSize, pStyle, width) {
+    let lDiv = document.createElement('div');
 
-    document.body.appendChild(lDiv);
+    rootElement.appendChild(lDiv);
 
     if (pStyle != null) {
         lDiv.style = pStyle;
     }
+
     lDiv.style.className = "active carousel-item";
-    lDiv.style.fontSize = pFontSize;
-    lDiv.style.position = "absolute";
-    lDiv.style.left = -1000;
-    lDiv.style.top = -1000;
 
     lDiv.innerHTML = pText;
 
-    var lResult = {
-        width: (lDiv.clientWidth) % width,
-        height: (lDiv.clientHeight) * (Math.ceil(lDiv.clientWidth/width)) + pFontSize
+    //console.log("clientWidth: " + lDiv.clientWidth);
+
+    let lResult = {
+        width: (lDiv.clientWidth),
+        height: (lDiv.clientHeight)
     };
 
-    document.body.removeChild(lDiv);
+    rootElement.removeChild(lDiv);
     lDiv = null;
 
     return lResult;
@@ -249,30 +283,49 @@ class StoryReader extends Component {
   //returns 0 if the text fits the page. Returns 1 if its to large, and -1 if its too small
   doesTextFitPage(text) {
     //get the story reader's height and element
-    var rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
-    var rootHeight = rootElement.scrollHeight;
-    var pageTextElement = document.getElementsByClassName("card-text")[this.state.activeIndex];
+    let rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
+    let rootHeight = rootElement.scrollHeight;
 
-    var style = window.getComputedStyle(pageTextElement, null).getPropertyValue('font-size');
-    var fontSize = parseFloat(style);
+    let pageTextHeight = this.getPageTextHeight(text);
 
-    var pageTextHeight = text.split('\n').map((item) => {
-      return this.measureText(item, fontSize, pageTextElement.style, pageTextElement.clientWidth).height;
-    }).reduce((a, b) => a + b, 0);
+    console.log("pageHeight: " + rootHeight);
+    console.log("pageTextHeight: " + pageTextHeight);
 
     // get our height percent
-    var heightDecimal = pageTextHeight / rootHeight;
+    let heightDecimal = pageTextHeight / rootHeight;
 
     //return if this pages height percentage is within our accepted bounds.
     if (heightDecimal < this.pageTextPercentLowerBoundDecimal) {
       return -1;
     }
-    
+
     if (heightDecimal > this.pageTextPercentDecimal) {
       return 1;
     }
 
     return 0;
+  }
+
+  getPageTextHeight(text) {
+    let rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
+    let rootHeight = rootElement.scrollHeight;
+    let pageTextElement = document.getElementsByClassName("card-text")[this.state.activeIndex];
+
+    let style = window.getComputedStyle(pageTextElement, null).getPropertyValue('font-size');
+    let fontSize = parseFloat(style);
+
+    //split will not include empty strings between two newline characters
+    let textArray =  text.split('\n');
+
+
+
+    console.log(textArray);
+
+    let pageTextHeight = textArray.map((item) => {
+      return this.measureText((item === "" ? "test" : item), rootElement, fontSize, pageTextElement.style, pageTextElement.style.width).height;
+    }).reduce((a, b) => a + b, 0);
+
+    return pageTextHeight;
   }
 
   getNewlineText(text) {
