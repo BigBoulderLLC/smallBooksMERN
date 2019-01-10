@@ -26,7 +26,7 @@ function StoryCarouselItem(props) {
         <Card style={heightStyle}>
           <CardBody id="StoryReaderCardBody" style={heightStyle} className="mx-3">
             <CardTitle className="story-title">{props.book.title}</CardTitle>
-            <CardSubtitle className="story-subtitle">{props.book.authorName}</CardSubtitle>
+            <CardSubtitle className="story-subtitle mb-4">{props.book.authorName}</CardSubtitle>
             <CardText id="StoryReaderCardText" style={props.forcePageHeight ? textHeightStyle : {}} >{props.storyPage.pageText}</CardText>
             <CardSubtitle className="story-subtitle   text-muted">{"Page " + props.storyPage.pageNumber}</CardSubtitle>
           </CardBody>
@@ -71,6 +71,8 @@ class StoryReader extends Component {
   };
 
   pageTextMaxCharLength = 4000;
+
+  charsToSkipAtStartOfPage = " \t\n"
 
   pageTextPercentDecimal = .70;
   pageTextPercentLowerBoundDecimal = .65;
@@ -195,6 +197,11 @@ class StoryReader extends Component {
         }
         if (hitInt === 0) {
           targetHeightHit = true;
+
+        }
+
+        if (targetHeightHit) {
+
           let targetHeight = this.getPageTextHeight(bookText.substring(lowerBound, upperBound));
 
           let previousUpperBound;
@@ -227,6 +234,8 @@ class StoryReader extends Component {
             }
 
           }
+
+          console.log(bookText.substring(lowerBound,upperBound));
         }
 
       }
@@ -243,6 +252,12 @@ class StoryReader extends Component {
         pageText: pageText
       }
     );
+
+    //iterate past any newlines or spaces at the start of a page
+    while(upperBound < bookText.length && this.charsToSkipAtStartOfPage.includes(bookText.charAt(upperBound))) {
+      console.log(upperBound);
+      upperBound++;
+    }
 
     this.book.bookText = bookText.substring(upperBound, bookText.length);
 
@@ -288,8 +303,8 @@ class StoryReader extends Component {
 
     let pageTextHeight = this.getPageTextHeight(text);
 
-    console.log("pageHeight: " + rootHeight);
-    console.log("pageTextHeight: " + pageTextHeight);
+    //console.log("pageHeight: " + rootHeight);
+    //console.log("pageTextHeight: " + pageTextHeight);
 
     // get our height percent
     let heightDecimal = pageTextHeight / rootHeight;
@@ -315,11 +330,7 @@ class StoryReader extends Component {
     let fontSize = parseFloat(style);
 
     //split will not include empty strings between two newline characters
-    let textArray =  text.split('\n');
-
-
-
-    console.log(textArray);
+    let textArray = text.split('\n');
 
     let pageTextHeight = textArray.map((item) => {
       return this.measureText((item === "" ? "test" : item), rootElement, fontSize, pageTextElement.style, pageTextElement.style.width).height;
