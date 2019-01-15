@@ -14,7 +14,7 @@ import {
 
 function StoryCarouselItem(props) {
   let heightStyle = {height: '100%'};
-  let textHeightStyle = {height: '85%'};
+  let textHeightStyle = {height: '82%'};
 
   return (
       <CarouselItem
