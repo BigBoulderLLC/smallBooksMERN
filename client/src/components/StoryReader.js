@@ -235,7 +235,7 @@ class StoryReader extends Component {
 
           }
 
-          console.log(bookText.substring(lowerBound,upperBound));
+          //console.log(bookText.substring(lowerBound,upperBound));
         }
 
       }
@@ -255,7 +255,7 @@ class StoryReader extends Component {
 
     //iterate past any newlines or spaces at the start of a page
     while(upperBound < bookText.length && this.charsToSkipAtStartOfPage.includes(bookText.charAt(upperBound))) {
-      console.log(upperBound);
+      //console.log(upperBound);
       upperBound++;
     }
 
@@ -264,7 +264,7 @@ class StoryReader extends Component {
     this.isFirstPageInitialized = true;
     this.arePagesInitialized = !this.book.bookText;
 
-    console.log("Page Accepted");
+    //console.log("Page Accepted");
 
     this.forceUpdate();
   }

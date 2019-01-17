@@ -10,6 +10,7 @@ import {
 } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getStories, deleteStory } from '../actions/storyActions';
+import ShortStoryListItem from './ShortStoryListItem';
 import PropTypes from 'prop-types';
 
 class ShortStoryList extends Component {
@@ -28,35 +29,13 @@ class ShortStoryList extends Component {
   render() {
     const { shortStories }  = this.props.shortStories;
       return(
-        <ListGroup>
           <TransitionGroup className="short-story-list">
-            {shortStories.map(({_id, name}) => (
-              <CSSTransition key={_id} timeout={500} classNames="fade">
-                <ListGroupItem>
-                  {name}
-                  <Button
-                    color="dark"
-                    size="sm"
-                    className="pull-right"
-                    onClick={() => {
-                      window.location.href = "/story/" + _id;
-                    }}>
-                    Read Story
-                  </Button>
-                  <Button
-                    color="danger"
-                    size="sm"
-                    className="pull-right"
-                    style={{marginRight:"10px"}}
-                    onClick={this.onDeleteClick.bind(this, _id)}
-                  >
-                    Delete Story
-                  </Button>
-                </ListGroupItem>
+            {shortStories.map((shortStory) => (
+              <CSSTransition key={shortStory._id} timeout={500} classNames="fade">
+                <ShortStoryListItem shortStory={shortStory} showReadStory={true} />
               </CSSTransition>
             ))}
           </TransitionGroup>
-        </ListGroup>
       )
   }
 }
