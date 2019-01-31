@@ -19,7 +19,7 @@ class AppNavbar extends Component {
 
   componentDidMount() {
     let token = localStorage.getItem('token')
-    console.log(localStorage)
+
     if (token === null) {
       this.setState({
         isLoggedIn:false
@@ -29,7 +29,7 @@ class AppNavbar extends Component {
         isLoggedIn: true
       })
     }
-    console.log("My Token from AppNavBar: " + token);
+
   }
 
   toggle = () => {
@@ -45,12 +45,19 @@ class AppNavbar extends Component {
   render() {
     let navLinks = [
       {
-        tabName:"Browse Stories",
+        // Search by genre for stories or authors
+        tabName:"Find Stories",
         link:"/"
       },
       { 
-        tabName:"Browse Authors",
+        // View the stories you've added to your shelf
+        tabName:"My Shelf",
         link: "/authors"
+      },
+      { 
+        // View your profile's author and its stories
+        tabName:"My Stories",
+        link: "/myStories"
       }
     ]
     if (!this.state.isLoggedIn) {
@@ -66,18 +73,23 @@ class AppNavbar extends Component {
     }
     return (
 
-      <div className="navbar">
-        <Container>
-          <div className="navbar-logo">
-            <a href="/"><img src={logo} alt="Small Books Logo"/></a>
-          </div>
-          <ul className="navbar-tabs">
-            {navLinks.map(navLink => {
-              return <NavbarTab key={navLink.link} navbarLink={navLink} onClick={this.logout}/>
-            })}
-          </ul>
-        </Container>
-      </div>
+        <div className="navbar">
+
+          <Container>
+
+            <div className="navbar-logo">
+              <a href="/"><img src={logo} alt="Small Books Logo"/></a>
+            </div>
+
+            <ul className="navbar-tabs">
+              {navLinks.map(navLink => {
+                return <NavbarTab key={navLink.link} navbarLink={navLink} onClick={this.logout}/>
+              })}
+            </ul>
+
+          </Container>
+
+        </div>  
     );
   }
 }

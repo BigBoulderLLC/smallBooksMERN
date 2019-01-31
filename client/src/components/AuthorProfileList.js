@@ -21,7 +21,7 @@ class AuthorProfileList extends Component {
     const { authors }  = this.props.authors;
     return(
       authors.map((author) => (
-        <AuthorProfile author={author}/>
+        <AuthorProfile author={author} readOnly={this.props.readOnly} />
       ))
     )
   }

@@ -19,7 +19,7 @@ class ShortStoryListItem extends Component {
   render() {
     return(
     	<Card body
-      className="mb-3"
+      className={this.props.showReadStory && !this.props.showEditStory ? "m-3 shadowHover-2" : "m-3 shadow-2"}
       onClick={
         this.props.showReadStory && !this.props.showEditStory ?
         () => {
@@ -33,32 +33,27 @@ class ShortStoryListItem extends Component {
             {this.props.shortStory.name}
           </CardTitle>
 
-          <CardSubtitle className="ml-2">
-            {"By: " + this.props.shortStory.author}
-          </CardSubtitle>
+          {
+            this.props.hideAuthor ?
+
+            null :
+            
+            <CardSubtitle className="ml-2">
+              {"By: " + this.props.shortStory.author}
+            </CardSubtitle>
+          }
+
+          <div className="mb-2"/>
 
 	  			<CardText className="ml-2">
 	  				{this.props.shortStory.description}
 	  			</CardText>
 
           {
-            this.props.showEditStory ?
-            <Button outline
-              color="dark"
-              className="mx-5"
-              onClick={() => {
-                window.location.href = "/story/" + this.props.shortStory._id;
-              }}>
-              Edit Story
-            </Button> :
-            null
-          }
-
-          {
             this.props.showReadStory && this.props.showEditStory ?
             <Button outline
               color="dark"
-              className="mx-1"
+              className="mx-5 mb-2"
               onClick={() => {
                 window.location.href = "/story/" + this.props.shortStory._id;
               }}>
@@ -67,15 +62,16 @@ class ShortStoryListItem extends Component {
             null
           }
 
+
           {
-            this.props.showDeleteStory ?
+            this.props.showEditStory ?
             <Button outline
-              color="danger"
-              className="mx-5"
-              style={{marginRight:"10px"}}
-              onClick={this.onDeleteClick.bind(this, this.props.shortStory._id)}
-            >
-              Delete Story
+              color="primary"
+              className="mx-5 mb-2"
+              onClick={() => {
+                window.location.href = "/story/" + this.props.shortStory._id;
+              }}>
+              Edit Story
             </Button> :
             null
           }

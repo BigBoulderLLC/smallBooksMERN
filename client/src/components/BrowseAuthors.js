@@ -7,8 +7,7 @@ class BrowseAuthors extends Component {
   render() {
     return (
       <Container>
-        <CreateAuthorProfile />
-        <AuthorProfileList />
+        <AuthorProfileList readOnly={true}/>
       </Container>
     );
   }

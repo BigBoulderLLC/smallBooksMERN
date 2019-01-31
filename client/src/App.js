@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import UserSiteAccess from './components/UserSiteAccess';
 import BrowseAuthors from './components/BrowseAuthors';
+import MyStories from './components/MyStories';
 import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
 import UserProfile from './components/UserProfile';
@@ -70,6 +71,12 @@ class App extends Component {
       );
     }
 
+    const myStories = () => {
+      return (
+        <MyStories />
+      );
+    }
+
     let viewShortStory = ({match}) => {
       const storyId = match.params.storyId;
       return (
@@ -106,6 +113,7 @@ class App extends Component {
               <div style={{height: '88%'}}>
                 <Route exact path="/" component={browseShortStories} />
                 <Route path="/authors" component={browseAuthors} />
+                <Route path="/myStories" component={myStories} />
                 <Route path="/story/:storyId" component={viewShortStory} />
                 <Route path="/signup" component={signup} />
                 <Route path="/login" component={login} />

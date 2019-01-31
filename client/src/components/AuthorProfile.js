@@ -4,44 +4,75 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText
+  CardText,
+  Button
 } from 'reactstrap';
 import ShortStoryList from './ShortStoryList';
+import FloatingActionButton from './FloatingActionButton';
 import PropTypes from 'prop-types';
+import CreateShortStory from './CreateShortStory';
 
 class AuthorProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   render() {
     return(
-    	<Card className="mb-3">
+      <div>
 
-  			<CardHeader tag="h3">
-            {this.props.author.authorName}
-        </CardHeader>
+        <Card className="mb-3">
 
-  			<CardBody>
+          <CardHeader tag="h3">
+              {this.props.author.authorName}
+          </CardHeader>
 
-  				<CardTitle>
-  					Biography
-  				</CardTitle>
+          <CardBody>
 
-	  			<CardText>
-	  				{this.props.author.authorBiography}
-	  			</CardText>
+            {
+              this.props.readOnly ?
+              null :
+              <Button block outline
+                color="primary"
+                className="mb-2"
+                onClick={() => {
+                  //GO TO AUTHOR EDIT/MODAL
+                  //window.location.href = "/story/" + this.props.shortStory._id;
+                }}>
+                Edit Author
+              </Button>
+            }
 
-	  			<CardTitle>
-	  				Stories by this Author
-	  			</CardTitle>
+            <CardTitle>
+              Biography
+            </CardTitle>
 
-	  			<ShortStoryList/>
+            <CardText>
+              {this.props.author.authorBiography}
+            </CardText>
 
-  		  </CardBody>
+            <CardTitle>
+              Stories by this Author
+            </CardTitle>
 
-    	</Card>
+            <ShortStoryList readOnly={this.props.readOnly} author={this.props.author} hideAuthors={true}/>
+
+          </CardBody>
+
+        </Card>
+        
+
+        {
+          this.props.readOnly ?
+
+          null :
+
+          <FloatingActionButton label="Create Story" onClick={this.props.toggleCreatingStory}/>
+        }
+
+      </div>
+
     );
   }
 }
