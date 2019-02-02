@@ -7,10 +7,14 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Card,
+  CardHeader,
+  CardBody
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addAuthor } from '../actions/authorActions';
+import FloatingActionButton from './FloatingActionButton';
 
 class CreateAuthorProfile extends Component {
   state = {
@@ -57,13 +61,8 @@ class CreateAuthorProfile extends Component {
   render() {
     return(
       <div>
-        <Button
-          color="success"
-          style={{marginBottom: '2rem'}}
-          onClick={this.toggle}
-        >
-          Create Author
-        </Button>
+
+        <FloatingActionButton label="Create Author" onClick={this.toggle}/>
 
         <Modal
           isOpen={this.state.isModalOpen}

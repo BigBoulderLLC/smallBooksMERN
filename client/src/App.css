@@ -1,19 +1,66 @@
 /* Global Styles */
 
+/*
+
+COLOR SCHEME
+
+ACCENT|Cyan - var(--accentColor)
+HOVERACCENT|DarkCyan - var(--accentColorHover)
+
+PAPER|White/Blue - var(--paperColor)
+HOVERPAPER|Blue/White - var(--paperColorHover)
+
+NAVBAR|DeepBlue - var(--navBarColor)
+HOVERNAVBAR|DarkBlue - var(--navBarColorHover)
+
+BACKGROUND|DullBlue - var(--backgroundColor)
+
+LIGHTTEXT|White/Blue - var(--paperColor)
+
+*/
+
+/* Firefox ignores first declaration for some reason */
 dummydeclaration {
   padding-left: 4em;
-} /* Firefox ignores first declaration for some reason */
+} 
 
-tab { 
+:root {
+  --accentColor: #84dcc6;
+  --accentColorHover: #165041;
+  
+  --paperColor: #E0F2E9;
+  --paperColorHover: #C7DFE4;
+
+  --navBarColor: #1B263B;
+  --navBarColorHover: #0D1B2A;
+
+  --backgroundColor: #444E60;
+
+  --textColorLight: #E0F2E9;
+}
+
+html {
+  background-color: var(--backgroundColor);
+}
+
+tab {
   padding-left: 4em;
 }
 
 .navbar {
-  background-color:#ddd;
+  background-color:var(--navBarColor);
   top:0;
   position:fixed;
   width:100%;
   height:75px;
+}
+
+.navbar-seperator {
+  top:75px;
+  position:fixed;
+  width:100%;
+  float: left;
+  margin: auto;
 }
 
 .navbar-logo img {
@@ -27,14 +74,14 @@ tab {
   margin-block-end:0px;
   height:75px;
 }
-  
+
 .navbar-tab {
   display:inline;
   float:left;
 }
 
 .navbar-tab-hover {
-  background-color:#bbb
+  background-color:var(--navBarColorHover)
 }
 
 .navbar-tab a {
@@ -45,7 +92,7 @@ tab {
 .navbar-tab p {
   margin-bottom:0;
   line-height:25px;
-  color:#111
+  color:var(--paperColor)
 }
 
 .navbar-tab a:hover {
@@ -54,6 +101,7 @@ tab {
 
 .main-body {
   margin-top:85px;
+  background-color: var(--backgroundColor);
 }
 
 .fade-enter {
@@ -74,11 +122,116 @@ tab {
   transition: opacity 1000ms ease-in;
 }
 
+.section-seperator {
+  height: .1em;
+  margin: 0px;
+  background-color: var(--paperColor);
+}
+
+.shadow-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.shadowHover-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.shadowHover-1:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  background-color: var(--paperColorHover);
+}
+
+.shadow-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.shadowHover-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.shadowHover-2:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  background-color: var(--paperColorHover);
+}
+
+.shadow-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.shadowHover-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.shadowHover-3:hover {
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  background-color: var(--paperColorHover);
+}
+
+.FloatingActionButton-fab-1 {
+  z-index: 99;
+}
+
+.btn-primary {
+  background-color: var(--accentColor);
+  border-color: var(--accentColor);
+  color: #343a40;
+}
+
+.btn-primary:hover {
+  background-color: var(--accentColorHover);
+  border-color: var(--accentColorHover);
+  color: var(--paperColor);
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle, .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+  background-color: var(--accentColorHover);
+  border-color: var(--accentColorHover);
+  color: var(--paperColor);
+  box-shadow: 0 0 0 0.2rem var(--accentColorHover);
+}
+
+.btn-outline-primary {
+  border-color: var(--accentColor);
+  color: #343a40;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--accentColor);
+  border-color: #343a40;
+  color: #343a40;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus {
+  background-color: var(--accentColor);
+  border-color: #343a40;
+  color: #343a40;
+  box-shadow: 0 1px 1px var(--accentColorHover) inset, 0 0 8px var(--accentColorHover);
+}
+
+.btn-primary:focus, .btn-outline-primary:focus, textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus, .btn-outline-dark:not(:disabled):not(.disabled).active:focus, .btn-outline-dark:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-dark.dropdown-toggle:focus, .btn-outline-dark.focus, .btn-outline-dark:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus, .btn-secondary:not(:disabled):not(.disabled):active:focus, .show>.btn-secondary.dropdown-toggle:focus, .btn-secondary.focus, .btn-secondary:focus {   
+    border-color: var(--accentColorHover);
+    box-shadow: 0 1px 1px var(--accentColorHover) inset, 0 0 8px var(--accentColorHover);
+}
+
+@media(min-width: 1024px) {
+   .app-fab--absolute {
+    bottom: 5rem;
+    right: 10rem;
+    z-index: 99;
+  }
+}
+
+.card {
+  background-color:var(--paperColor)
+}
+
 .story-reader {
   max-width: 95%;
   margin: auto;
   height: 100%;
-  background: white;
   font-size: 110%;
 }
 

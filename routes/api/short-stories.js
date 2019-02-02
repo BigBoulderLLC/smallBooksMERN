@@ -3,6 +3,7 @@ const router = express.Router();
 
 // ShortStory model
 const ShortStory = require('../../models/ShortStory');
+const StorySection = require('../../models/StorySection');
 
 // @route   GET api/short-stories
 // @desc    Get All Short stories
@@ -25,7 +26,7 @@ router.get('/:id', (req, res) => {
     .catch(err => {
       console.log(`Error retrieving short story ID ${req.params.id}`);
       res.json({
-        success:false,
+        success: false,
         message: `Error retrieving short story ID ${req.params.id}`
       })
     })
@@ -35,19 +36,49 @@ router.get('/:id', (req, res) => {
 // @desc    Create a Short Story
 // @access  Private
 router.post('/', (req, res) => {
-  const newShortStory = new ShortStory({
-    name: req.body.name,
-    description: req.body.description,
-    story: req.body.story,
-    author: req.body.createdBy,
-    createdBy: req.body.createdBy,
-    updatedBy: req.body.updatedBy
+  let newShortStory = new ShortStory({
+    _id: req.body.shortStory._id,
+    authorId: req.body.shortStory.authorId,
+    author: req.body.shortStory.author,
+    name: req.body.shortStory.name,
+    description: req.body.shortStory.description,
+    story: req.body.shortStory.story,
+    author: req.body.shortStory.createdBy,
+    createdBy: req.body.shortStory.createdBy,
+    updatedBy: req.body.shortStory.updatedBy
+  });
+
+  let newStorySection = new StorySection({
+    _id: req.body.storySection._id,
+    storyId: null,
+    title: req.body.storySection.title,
+    text: req.body.storySection.text,
+    createdBy: req.body.storySection.createdBy,
+    updatedBy: req.body.storySection.updatedBy
   });
 
   newShortStory.save()
-    .then(shortStory => res.json(shortStory))
+    .then(shortStory => {
+      console.log(`POST request for story ID ${shortStory._id}`);
+
+      newStorySection.storyId = shortStory._id;
+      newStorySection.title = shortStory.name;
+
+      newStorySection.save()
+        .then(storySection => {
+          console.log(`POST request for story section ID ${storySection._id}`);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            error: "Save Failed"
+          })
+        })
+
+      res.json(shortStory);
+    })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.json({
         error: "Save Failed"
       })

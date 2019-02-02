@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppNavBar from './components/AppNavbar';
 import UserSiteAccess from './components/UserSiteAccess';
 import BrowseAuthors from './components/BrowseAuthors';
+import MyStories from './components/MyStories';
 import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
 import UserProfile from './components/UserProfile';
@@ -49,7 +50,7 @@ class App extends Component {
     }
     this.toggleLoginModal = this.toggleLoginModal.bind(this)
   }
-  
+
 
   toggleLoginModal = () => {
     this.setState({
@@ -68,6 +69,12 @@ class App extends Component {
     const browseAuthors = () => {
       return(
         <BrowseAuthors/>
+      );
+    }
+
+    const myStories = () => {
+      return (
+        <MyStories />
       );
     }
 
@@ -99,15 +106,15 @@ class App extends Component {
     return (
       // <Provider store={store}>
         <div className="App" style={{height: '100%'}}>
-
           <header className="App-header">
             <AppNavBar />
           </header>
-          <div className="main-body">
-            <Router id="RouterId" history={history}>
+          <div className="main-body" style={{height: '100%'}}>
+            <Router id="RouterId">
               <div style={{height: '88%'}}>
                 <Route exact path="/" component={browseShortStories} />
                 <Route path="/authors" component={browseAuthors} />
+                <Route path="/myStories" component={myStories} />
                 <Route path="/story/:storyId" component={viewShortStory} />
                 <Route path="/signup" component={signup} />
                 <Route path="/login" component={login} />

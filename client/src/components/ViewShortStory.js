@@ -22,6 +22,7 @@ class ViewShortStory extends Component {
     }
     else {
       return(
+        //while querying, display some sort of indicator. We can make this a react component used on every page (maybe like the bar at the top of Appian forms/youtube loading pages)
         <Container>Loading</Container>
       );
     }

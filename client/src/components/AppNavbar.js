@@ -21,6 +21,20 @@ class AppNavbar extends Component {
     this.logoutOfApp = this.logoutOfApp.bind(this);
   }
 
+  componentDidMount() {
+    let token = localStorage.getItem('token')
+
+    if (token === null) {
+      this.setState({
+        isLoggedIn:false
+      })
+    } else {
+      this.setState({
+        isLoggedIn: true
+      })
+    }
+  }
+
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
@@ -48,14 +62,19 @@ class AppNavbar extends Component {
   render() {
     let navLinks = [
       {
-        tabName:"Browse Stories",
-        link: "/",
-        clickAction: null
+        // Search by genre for stories or authors
+        tabName:"Find Stories",
+        link:"/"
       },
       { 
-        tabName:"Browse Authors",
-        link: "/authors",
-        clickAction: null
+        // View the stories you've added to your shelf
+        tabName:"My Shelf",
+        link: "/authors"
+      },
+      { 
+        // View your profile's author and its stories
+        tabName:"My Stories",
+        link: "/myStories"
       }
     ]
     if (!this.props.isAuthenticated) {
@@ -72,19 +91,23 @@ class AppNavbar extends Component {
       });
     }
     return (
+        <div className="navbar">
 
-      <div className="navbar">
-        <Container>
-          <div className="navbar-logo">
-            <a href="/"><img src={logo} alt="Small Books Logo"/></a>
-          </div>
-          <ul className="navbar-tabs">
-            {navLinks.map(navLink => {
-              return <NavbarTab key={navLink.tabName} navLink={navLink} />
-            })}
-          </ul>
-        </Container>
-      </div>
+          <Container>
+
+            <div className="navbar-logo">
+              <a href="/"><img src={logo} alt="Small Books Logo"/></a>
+            </div>
+
+            <ul className="navbar-tabs">
+              {navLinks.map(navLink => {
+                return <NavbarTab key={navLink.tabName} navbarLink={navLink} onClick={this.logout}/>
+              })}
+            </ul>
+
+          </Container>
+
+        </div> 
     );
   }
 }

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
   Button,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  Card,
+  CardTitle
 } from 'reactstrap';
 import {
   CSSTransition,
@@ -10,6 +12,8 @@ import {
 } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getStories, deleteStory } from '../actions/storyActions';
+import ShortStoryListItem from './ShortStoryListItem';
+import CreateShortStory from './CreateShortStory';
 import PropTypes from 'prop-types';
 
 class ShortStoryList extends Component {
@@ -18,11 +22,11 @@ class ShortStoryList extends Component {
   }
 
   componentDidMount() {
+    //get all stories if we are browsing stories
     this.props.getStories();
-  }
 
-  onDeleteClick = (id) => {
-    this.props.deleteStory(id);
+    //get only our stories if we are looking at My Stories
+
   }
 
   render() {
@@ -66,6 +70,7 @@ ShortStoryList.propTypes = {
   getStories: PropTypes.func.isRequired,
   deleteStory: PropTypes.func.isRequired,
   shortStories: PropTypes.object.isRequired
+  //author (not required)
 }
 
 const mapStateToProps = (state) => ({
