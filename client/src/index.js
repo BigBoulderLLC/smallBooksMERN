@@ -3,17 +3,18 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import store from './store';
-import { CookiesProvider } from 'react-cookie';
+import configureStore from './configureStore';
+// import { CookiesProvider } from 'react-cookie';
 
+const store = configureStore();
 
 ReactDOM.render(
 
-<CookiesProvider>
+//  <CookiesProvider>
   <Provider store={store}>
     <App /> 
-  </Provider>
-</CookiesProvider>,
+  </Provider>,
+// </CookiesProvider>,
 document.getElementById('root')
 );
 

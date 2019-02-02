@@ -7,8 +7,8 @@ function requestLogin(credentials) {
     type: LOGIN,
     isFetching: true,
     isAuthenticated: false,
-    username:credentials.username,
-    password:credentials.password
+    user:credentials.username,
+    errorMessage:null
   }
 }
 
@@ -17,7 +17,8 @@ function receiveLogin(username) {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    username: username
+    username: username,
+    errorMessage:null
   }
 }
 
@@ -26,7 +27,8 @@ function rejectLogin(message) {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
-    message
+    username: null,
+    errorMessage:message
   }
 }
 
@@ -34,7 +36,9 @@ function requestLogout() {
   return {
     type:LOGOUT,
     isFetching:true,
-    isAuthenticated:true
+    isAuthenticated:true,
+    username:null,
+    errorMessage:null
   }
 }
 
@@ -42,24 +46,29 @@ function receiveLogout() {
   return {
     type:LOGOUT_SUCCESS,
     isFetching:false,
-    isAuthenticated:false
+    isAuthenticated:false,
+    username:null,
+    errorMessage:null
   }
 }
 
-function requestRegistration(credentials) {
+function requestRegistration(username) {
   return {
     type:REGISTER,
     isFetching:true,
     isAuthenticated:false,
-    credentials
+    username:username,
+    errorMessage:null
   }
 }
 
-function receiveRegistration() {
+function receiveRegistration(username) {
   return {
     type:REGISTER_SUCCESS,
     isFetching:false,
-    isAuthenticated:true
+    isAuthenticated:true,
+    username:username,
+    errorMessage:null
   }
 }
 
@@ -68,12 +77,13 @@ function rejectRegistration(err) {
     type:REGISTER_FAILURE,
     isFetching:false,
     isAuthenticated:false,
-    err
+    username:null,
+    errorMessage:err
   }
 }
 
 export const register = registrationDetails => dispatch => {
-  let request = requestRegistration(registrationDetails)
+  let request = requestRegistration(registrationDetails.username)
   dispatch(request);
   let response = {}
   axios
@@ -81,9 +91,7 @@ export const register = registrationDetails => dispatch => {
     .then(res => {
       response = res
       if (res.data.success) {
-        let token = res.data.token
-        localStorage.setItem('token', token)
-        dispatch(receiveRegistration())
+        dispatch(receiveRegistration(registrationDetails.username))
       } else {
         dispatch(rejectRegistration("Registration failed"))
       }
@@ -96,9 +104,9 @@ export const register = registrationDetails => dispatch => {
 }
 
 export const logout = dispatch => {
-  dispatch(requestLogout())
-  localStorage.removeItem('token')
-  dispatch(receiveLogout())
+  console.log("Loggin the user out...")
+  dispatch(requestLogout());
+  dispatch(receiveLogout());
 }
 
 export const login = loginDetails => dispatch => {

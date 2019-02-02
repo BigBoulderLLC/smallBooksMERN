@@ -6,30 +6,19 @@ import {
 import logo from '../artifacts/smallbooks-logo-1.png'
 import NavbarTab from './NavbarTab';
 
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { login, logout } from '../actions/registerActions';
+import {withRouter} from 'react-router-dom';
+
 class AppNavbar extends Component {
   constructor(props) {
     super(props);
     this.state= {
-      isOpen:false,
-      isLoggedIn:false
+      isOpen:false
     }
     this.toggle = this.toggle.bind(this);
-    this.logout = this.logout.bind(this);
-  }
-
-  componentDidMount() {
-    let token = localStorage.getItem('token')
-    console.log(localStorage)
-    if (token === null) {
-      this.setState({
-        isLoggedIn:false
-      })
-    } else {
-      this.setState({
-        isLoggedIn: true
-      })
-    }
-    console.log("My Token from AppNavBar: " + token);
+    this.logoutOfApp = this.logoutOfApp.bind(this);
   }
 
   toggle = () => {
@@ -38,31 +27,49 @@ class AppNavbar extends Component {
     });
   }
 
-  logout = () => {
-    localStorage.removeItem('token');
+  logoutOfApp = withRouter((next) => {
+    console.log("Trying to log out...");
+    logout();
+    next();
+  })
+
+  redirectToStories = () => {
+    this.history.pushState(null, "/");
   }
+
+  redirectToAuthors = () => {
+    this.history.pushState(null, "/authors");
+  }
+
+  redirectToLogin = withRouter(() => {
+    this.history.pushState(null, "/login");
+  })
 
   render() {
     let navLinks = [
       {
         tabName:"Browse Stories",
-        link:"/"
+        link: "/",
+        clickAction: null
       },
       { 
         tabName:"Browse Authors",
-        link: "/authors"
+        link: "/authors",
+        clickAction: null
       }
     ]
-    if (!this.state.isLoggedIn) {
+    if (!this.props.isAuthenticated) {
       navLinks.push({
         tabName: "Login / Signup",
-        link: "/login"
-      })
+        link: "login",
+        clickAction: null
+      });
     } else {
       navLinks.push({
         tabName: "Logout",
-        link: "/"
-      })
+        link:"/",
+        clickAction: this.logoutOfApp
+      });
     }
     return (
 
@@ -73,7 +80,7 @@ class AppNavbar extends Component {
           </div>
           <ul className="navbar-tabs">
             {navLinks.map(navLink => {
-              return <NavbarTab key={navLink.link} navbarLink={navLink} onClick={this.logout}/>
+              return <NavbarTab key={navLink.tabName} navLink={navLink} />
             })}
           </ul>
         </Container>
@@ -82,6 +89,12 @@ class AppNavbar extends Component {
   }
 }
 
+AppNavbar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired
+}
 
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.login.isAuthenticated
+});
 
-export default AppNavbar;
+export default connect(mapStateToProps, { login })(AppNavbar);

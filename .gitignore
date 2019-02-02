@@ -2,3 +2,4 @@
 
 #prevent pushing changes to local installs of nodemon/react/redux/etc.
 node_modules
+.env

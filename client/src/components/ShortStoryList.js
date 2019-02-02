@@ -27,10 +27,11 @@ class ShortStoryList extends Component {
 
   render() {
     const { shortStories }  = this.props.shortStories;
+    const stories = Object.values(shortStories)
       return(
         <ListGroup>
           <TransitionGroup className="short-story-list">
-            {shortStories.map(({_id, name}) => (
+            {stories.map(({_id, name}) => (
               <CSSTransition key={_id} timeout={500} classNames="fade">
                 <ListGroupItem>
                   {name}

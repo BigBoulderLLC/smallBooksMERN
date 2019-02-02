@@ -18,6 +18,7 @@ Router.get('/register', (req, res) => {
 });
 
 Router.post('/register', (req, res) => {
+  console.log(`POST Request for registration for username ${req.body.username}`)
   const account = new Account({
     email: req.body.email,
     username: req.body.username,
@@ -52,6 +53,7 @@ Router.post('/register', (req, res) => {
 Router.post('/login', (req, res) => {
   let username = req.body.username
   let password = req.body.password
+  console.log(`POST Request for Login for username ${username}`)
   Account.authenticate(username, password, (err, user) => {
     if (err) {
       res.json(ResponseGenerator.createFailResponse("Login Failed")) 

@@ -18,9 +18,10 @@ class AuthorProfileList extends Component {
   }
 
   render() {
-    const { authors }  = this.props.authors;
+    const {authors}  = this.props.authors;
+    const auth = Object.values(authors)
     return(
-      authors.map((author) => (
+      auth.map((author) => (
         <AuthorProfile author={author}/>
       ))
     )

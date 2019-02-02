@@ -6,9 +6,10 @@ import ViewShortStory from './components/ViewShortStory';
 import BrowseShortStories from './components/BrowseShortStories';
 import UserProfile from './components/UserProfile';
 /* Import for our store and redux */
-import { Provider } from 'react-redux';
-import store from './store';
+// import { Provider } from 'react-redux';
+// import configureStore from './configureStore';
 import { BrowserRouter as Router, Route} from "react-router-dom";
+import history from './history'
 
 /* Import for our store and redux */
 
@@ -38,7 +39,7 @@ library.add(
   faCheckSquare
 )
 
-const token = localStorage.getItem('token')
+// const token = localStorage.getItem('token')
 
 class App extends Component {
   constructor(props) {
@@ -96,14 +97,14 @@ class App extends Component {
     }
 
     return (
-      <Provider store={store}>
+      // <Provider store={store}>
         <div className="App" style={{height: '100%'}}>
 
           <header className="App-header">
             <AppNavBar />
           </header>
           <div className="main-body">
-            <Router id="RouterId">
+            <Router id="RouterId" history={history}>
               <div style={{height: '88%'}}>
                 <Route exact path="/" component={browseShortStories} />
                 <Route path="/authors" component={browseAuthors} />
@@ -115,7 +116,7 @@ class App extends Component {
             </Router>
           </div>
         </div>
-      </Provider>
+      // </Provider>
     );
   }
 }

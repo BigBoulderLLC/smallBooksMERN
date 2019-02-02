@@ -1,7 +1,11 @@
 import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/types';
 
-let token = localStorage.getItem('token')
-const initialState = token ? { isAuthenticated: true} : {}
+const initialState = {
+  isFetching:false,
+  isAuthenticated:false,
+  user:null,
+  errorMessage:null
+}
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -10,13 +14,14 @@ export default function(state = initialState, action) {
         ...state,
         isFetching: true,
         isAuthenticated: false,
-        user: action.credentials
+        user: action.username
       }
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isFetching: true,
+        isFetching: false,
         isAuthenticated: true,
+        user: action.username,
         errorMessage: ''
       }
     case LOGIN_FAILURE:
@@ -24,6 +29,7 @@ export default function(state = initialState, action) {
         ...state,
         isFetching:false,
         isAuthenticated: false,
+        user: null,
         errorMessage: action.message
       }
     default:
