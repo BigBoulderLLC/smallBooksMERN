@@ -2,3 +2,7 @@
 
 #prevent pushing changes to local installs of nodemon/react/redux/etc.
 node_modules
+*.key
+awsConfig.json
+test_files
+package-lock.json
