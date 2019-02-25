@@ -1,129 +1,143 @@
 import axios from 'axios';
-import { REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE, LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN, LOGOUT,/* LOGOUT_FAILURE,*/ LOGOUT_SUCCESS } from '../actions/types';
+import { 
+  REGISTER, 
+  REGISTER_SUCCESS, 
+  REGISTER_FAILURE, 
+  LOGIN_SUCCESS, 
+  LOGIN_FAILURE, 
+  LOGIN, 
+  LOGOUT,
+  USER_PROFILE_SUCCESS, 
+  USER_PROFILE_FAILURE 
+} from '../actions/types';
 
 
-function requestLogin(credentials) {
+function requestLogin() {
   return {
-    type: LOGIN,
-    isFetching: true,
-    isAuthenticated: false,
-    username:credentials.username,
-    password:credentials.password
-  }
-}
+    type: LOGIN
+  };
+};
 
-function receiveLogin(username) {
+function receiveLogin(token) {
   return {
     type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    username: username
-  }
-}
+    payload: {
+      token: token,
+      error: null
+    }
+  };
+};
 
-function rejectLogin(message) {
+function rejectLogin(err) {
   return {
     type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message
-  }
-}
+    payload: {
+      token: null,
+      error: err
+    }
+  };
+};
 
 function requestLogout() {
   return {
-    type:LOGOUT,
-    isFetching:true,
-    isAuthenticated:true
-  }
-}
+    type: LOGOUT
+  };
+};
 
-function receiveLogout() {
+function requestRegistration() {
   return {
-    type:LOGOUT_SUCCESS,
-    isFetching:false,
-    isAuthenticated:false
-  }
-}
+    type: REGISTER
+  };
+};
 
-function requestRegistration(credentials) {
+function receiveRegistration(token) {
   return {
-    type:REGISTER,
-    isFetching:true,
-    isAuthenticated:false,
-    credentials
-  }
-}
-
-function receiveRegistration() {
-  return {
-    type:REGISTER_SUCCESS,
-    isFetching:false,
-    isAuthenticated:true
-  }
-}
+    type: REGISTER_SUCCESS,
+    payload: {
+      token: token,
+      error: null
+    }
+  };
+};
 
 function rejectRegistration(err) {
   return {
-    type:REGISTER_FAILURE,
-    isFetching:false,
-    isAuthenticated:false,
-    err
-  }
-}
+    type: REGISTER_FAILURE,
+    payload: {
+      token: null,
+      error: err
+    }
+  };
+};
+
+function receiveUserProfile(profile) {
+  return {
+    type: USER_PROFILE_SUCCESS,
+    payload: {
+      profile: profile,
+      error: null
+    }
+  };
+};
+
+function rejectUserProfile(err) {
+  return {
+    type: USER_PROFILE_FAILURE,
+    payload: {
+      profile: null,
+      error: err
+    }
+  };
+};
 
 export const register = registrationDetails => dispatch => {
-  let request = requestRegistration(registrationDetails)
+  /* Store registration request in redux state */
+  let request = requestRegistration();
   dispatch(request);
-  let response = {}
-  axios
-    .post('/api/account/register', registrationDetails)
-    .then(res => {
-      response = res
-      if (res.data.success) {
-        let token = res.data.token
-        localStorage.setItem('token', token)
-        dispatch(receiveRegistration())
-      } else {
-        dispatch(rejectRegistration("Registration failed"))
-      }
-    })
-    .catch(err => {
-      response = err
-      dispatch(rejectRegistration(err))
-    })
-  return response
-}
+
+  /* Call rest endpoint to register the account */
+  axios.post('/api/account/register', registrationDetails)
+  .then(res => {
+    if (res.data.success) {
+      /* Store token in login store and user profile in profile store */
+      const token = res.data.token;
+      const profile = res.data._doc;
+      dispatch(receiveRegistration(token));
+      dispatch(receiveUserProfile(profile));
+    } else {
+      const error = "Registration failed";
+      dispatch(rejectRegistration(error));
+      dispatch(rejectUserProfile(error));
+    }
+  })
+  .catch(err => {
+    dispatch(rejectRegistration(err));
+    dispatch(rejectUserProfile(err));
+  });
+};
 
 export const logout = dispatch => {
-  dispatch(requestLogout())
-  localStorage.removeItem('token')
-  dispatch(receiveLogout())
-}
+  dispatch(requestLogout());
+};
 
 export const login = loginDetails => dispatch => {
-  let request = requestLogin(loginDetails)
-  let response = {}
-  dispatch(request)
+  let request = requestLogin(loginDetails);
+  dispatch(request);
   axios
-    .post('/api/account/login', request)
+    .post('/api/account/login', loginDetails)
     .then(res => {
       if (res.data.success) {
-        response = receiveLogin(res.data.username)
-        /* Save token in local storage */ 
-        localStorage.setItem('token', res.data.token)
-        console.log("Local storage contains a token: " + localStorage.getItem('token'))
-        console.log(localStorage)
+        const token = res.data.token;
+        const profile = res.data._doc;
         /* Dispatch the response to redux */
-        dispatch(response)
+        dispatch(receiveLogin(token));
+        dispatch(receiveUserProfile(profile));
       } else {
-        response = rejectLogin(res.data.message)
-        dispatch(response)
+        const error = res.data.message;
+        dispatch(rejectLogin(error));
       }
-      
     })
     .catch(err => {
-      response = rejectLogin(err)
-      dispatch(response)
+      dispatch(rejectLogin(err));
     })
-}
+};

@@ -41,10 +41,15 @@ dummydeclaration {
 
 html {
   background-color: var(--backgroundColor);
+  font-size: 14px;
 }
 
 tab {
   padding-left: 4em;
+}
+
+p {
+  font-size: 1rem;
 }
 
 .navbar {
