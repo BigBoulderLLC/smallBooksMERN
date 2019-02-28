@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Container, TabContent, TabPane, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import { Redirect } from "react-router-dom";
-
 import Signup from './Signup';
 import Login from './Login';
 
@@ -21,8 +20,6 @@ class UserSiteAccess extends Component {
     localStorage.getItem('token') === null ? 
       this.setState({isLoggedIn:false}) : 
       this.setState({isLoggedIn:true})
-
-    console.log("My Token from UserSiteAccess: " + localStorage.getItem('token'))
   }
 
   toggle(tab) {
@@ -45,41 +42,41 @@ class UserSiteAccess extends Component {
     } else {
       return(
         <Container className="login-container">
-            <Nav tabs>
-              <NavItem>
-                <NavLink
-                  className= {classnames({active:this.state.activeTab === "login"})}
-                  onClick={() => {this.toggle("login")}}
-                >
-                  Log In
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className= {classnames({active:this.state.activeTab === "signup"})}
-                  onClick={() => {this.toggle("signup")}}
-                >
-                  Sign Up
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId="login">
-                <Row>
-                  <Col sm="12">
-                    <Login setLogin={this.setLogin}/>
-                  </Col>
-                </Row>
-              </TabPane>
-              <TabPane tabId="signup">
-                <Row>
-                  <Col sm="12">
-                    <Signup setLogin={this.setLogin}/>  
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
-          </Container>
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                className= {classnames({active:this.state.activeTab === "login"})}
+                onClick={() => {this.toggle("login")}}
+              >
+                Log In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className= {classnames({active:this.state.activeTab === "signup"})}
+                onClick={() => {this.toggle("signup")}}
+              >
+                Sign Up
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={this.state.activeTab}>
+            <TabPane tabId="login">
+              <Row>
+                <Col sm="12">
+                  <Login setLogin={this.setLogin}/>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="signup">
+              <Row>
+                <Col sm="12">
+                  <Signup setLogin={this.setLogin}/>  
+                </Col>
+              </Row>
+            </TabPane>
+          </TabContent>
+        </Container>
       )
     }
   }

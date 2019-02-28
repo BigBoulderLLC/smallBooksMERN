@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 
 const handleE11000 = function(error, res, next) {
   if (error.name === 'MongoError' && error.code === 11000) {
-    let errorMessage = error.errMsg
-    let field = errorMessage.slice(indexOf('$'), indexOf('_'))
-    next(new Error('The ' + field.charAt(0).toUpperCase() + field.slice(1) + ' entered has already been claimed.'))
+    let errorMessage = error.errMsg;
+    let field = errorMessage.slice(indexOf('$'), indexOf('_'));
+    next(new Error('The ' + field.charAt(0).toUpperCase() + field.slice(1) + ' entered has already been claimed.'));
   } else {
     next();
   }
@@ -16,8 +16,7 @@ const Account = new Schema({
   email: {
     type: String,
     required: true,
-    unique:true,
-    trim: true
+    unique:true
   },
   username: {
     type: String,
@@ -43,44 +42,46 @@ const Account = new Schema({
 })
 
 Account.pre('save', function(next) {
-  let account = this
-  bcrypt.hash(account.password, 10, function(err, hash) {
-    if (err) {
-      return next(err)
-    }
-    account.password = hash
-    next()
-  })
-})
-
-
+  let account = this;
+  if ( !account.isNew ) {
+    next();
+  } else {
+    bcrypt.hash(account.password, 10, function(err, hash) {
+      if (err) {
+        return next(err)
+      }
+      account.password = hash;
+      next();
+    });
+  }
+});
 
 Account.statics.authenticate = function(username, password, callback) {
-  let myAccount = this
-  console.log("Authenticating username: " + username)
+  let myAccount = this;
+  console.log("Authenticating username: " + username);
   myAccount.findOne({username: username})
     .exec((err, account) => {
-      let msg = "User " + username + " not found"
+      let msg = "User " + username + " not found";
       if (err) {
-        return callback(err)
+        return callback(err);
       } else if (!account) {
-        console.log(msg)
-        let err = new Error(msg)
-        err.status = 401
-        return callback(err)
+        console.log(msg);
+        let err = new Error(msg);
+        err.status = 401;
+        return callback(err);
       }
       bcrypt.compare(password, account.password, (err, result) => {
         if (result === true) {
-          console.log("User " + username + " found")
-          return callback(null, account)
+          console.log("User " + username + " found");
+          return callback(null, account);
         } else {
-          console.log(msg)
-          let err = new Error(msg)
-          err.status = 401
-          return callback(err)
+          console.log(msg);
+          let err = new Error(msg);
+          err.status = 401;
+          return callback(err);
         }
       })
     })
 }
 
-module.exports = mongoose.model('accounts', Account)
+module.exports = mongoose.model('accounts', Account);

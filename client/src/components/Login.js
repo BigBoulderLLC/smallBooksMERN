@@ -13,31 +13,31 @@ import { login } from '../actions/registerActions';
 
 class Login extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       userUsername:"",
       userPassword:""
-    }
-    this.loginAction = this.loginAction.bind(this)
-    this.submit = this.submit.bind(this)
-    this.onChange = this.onChange.bind(this)
-  }
+    };
+    this.loginAction = this.loginAction.bind(this);
+    this.submit = this.submit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  };
 
   loginAction(e) {
-    e.preventDefault()
-    this.props.login({username:this.state.userUsername, password:this.state.userPassword})
-    this.props.setLogin(true)
-  }
+    e.preventDefault();
+    this.props.login({username:this.state.userUsername, password:this.state.userPassword});
+    this.props.setLogin(true);
+  };
 
   submit(e) {
-    this.loginAction(e)
-  }
+    this.loginAction(e);
+  };
 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   render() {
     return(
@@ -58,19 +58,19 @@ class Login extends Component {
         </FormGroup>
         <Button>Submit</Button>
       </Form>
-    )
-  }
-}
+    );
+  };
+};
 
 Login.propTypes = {
   login: PropTypes.func.isRequired
-}
+};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   login: {
-    username:state.userUsername,
-    password:state.userPassword
+    username: state.userUsername,
+    password: state.userPassword
   }
-})
+});
 
-export default connect(mapStateToProps, { login })(Login)
+export default connect(mapStateToProps, { login })(Login);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Container, Button} from 'reactstrap';
+import { Container, Button } from 'reactstrap';
 import TextFieldReadOnly from './TextFieldReadOnly';
+import { connect } from 'react-redux';
 // import {
 //   Form,
 //   FormGroup,
@@ -29,22 +30,26 @@ class UserProfile extends Component {
   }
 
   render() {
-    const username=""
-    const email=""
     return(
       <Container>
         <div className="user-profile-header">
-          <h1>Hello <em>{username}</em></h1>
+          <h1>Hello <em>{this.props.user.username}</em></h1>
           <Button
             onClick={this.toggleEditMode}
           >Edit Profile</Button>
         
         </div>
-        <TextFieldReadOnly fieldLabel="Primary Email" fieldValue={email}/>
-        <TextFieldReadOnly fieldLabel="Full Name" fieldValue={this.state.fullName}/>
+        <TextFieldReadOnly fieldLabel="Primary Email" fieldValue={this.props.user.email}/>
+        <TextFieldReadOnly fieldLabel="Full Name" fieldValue={"yo"}/>
       </Container>
     )
   }
 }
 
-export default UserProfile;
+const mapStateToProps = state => {
+  return {
+    user: state.user.userProfile
+  }
+}
+
+export default connect(mapStateToProps)(UserProfile);

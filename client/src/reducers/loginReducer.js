@@ -1,7 +1,12 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/types';
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE } from '../actions/types';
 
-let token = localStorage.getItem('token')
-const initialState = token ? { isAuthenticated: true} : {}
+const initialState = { 
+  isFetching: false,
+  isRegistration: false,
+  isAuthenticated: true,
+  token: null,
+  error: null
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -9,24 +14,66 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
+        isRegistration: false,
         isAuthenticated: false,
-        user: action.credentials
+        token: null,
+        error: null
       }
     case LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: true,
+        isRegistration: false,
         isAuthenticated: true,
-        errorMessage: ''
+        token: action.payload.token,
+        error: null
       }
     case LOGIN_FAILURE:
       return {
         ...state,
-        isFetching:false,
+        isFetching: false,
+        isRegistration: false,
         isAuthenticated: false,
-        errorMessage: action.message
+        token: null,
+        error: action.payload.error
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        isFetching: false,
+        isRegistration: false,
+        isAuthenticated: false,
+        token: null,
+        error: null
+      }
+    case REGISTER:
+      return {
+        ...state,
+        isFetching: true,
+        isRegistration: true,
+        isAuthenticated: false,
+        token: null,
+        error: false
+      }
+    case REGISTER_SUCCESS: 
+      return {
+        ...state,
+        isFetching: false,
+        isRegistration: true,
+        isAuthenticated: true,
+        token: action.payload.token,
+        error: null
+      }
+    case REGISTER_FAILURE: 
+      return {
+        ...state,
+        isFetching: false,
+        isRegistration: true,
+        isAuthenticated: false,
+        token: null,
+        error: action.payload.error
       }
     default:
       return state
   }
-}
+};
