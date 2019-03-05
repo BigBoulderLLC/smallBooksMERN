@@ -10,7 +10,6 @@ import {
 import ShortStoryList from './ShortStoryList';
 import FloatingActionButton from './FloatingActionButton';
 import PropTypes from 'prop-types';
-import CreateShortStory from './CreateShortStory';
 
 class AuthorProfile extends Component {
   constructor(props) {

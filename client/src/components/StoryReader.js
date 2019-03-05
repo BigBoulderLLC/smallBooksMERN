@@ -7,8 +7,7 @@ import {
   CardBody,
   CardSubtitle,
   CardTitle,
-  CardText,
-  Container
+  CardText
 } from 'reactstrap';
 
 
@@ -69,6 +68,9 @@ class StoryReader extends Component {
     authorName: "",
     bookText: ""
   };
+
+  rootElement = null;
+  pageTextElement = null;
 
   pageTextMaxCharLength = 4000;
 
@@ -269,7 +271,7 @@ class StoryReader extends Component {
     this.forceUpdate();
   }
 
-  measureText(pText, rootElement, pFontSize, pStyle, width) {
+  measureText(pText, rootElement, pStyle, width) {
     let lDiv = document.createElement('div');
 
     rootElement.appendChild(lDiv);
@@ -298,8 +300,7 @@ class StoryReader extends Component {
   //returns 0 if the text fits the page. Returns 1 if its to large, and -1 if its too small
   doesTextFitPage(text) {
     //get the story reader's height and element
-    let rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
-    let rootHeight = rootElement.scrollHeight;
+    let rootHeight = this.rootElement.scrollHeight;
 
     let pageTextHeight = this.getPageTextHeight(text);
 
@@ -322,18 +323,13 @@ class StoryReader extends Component {
   }
 
   getPageTextHeight(text) {
-    let rootElement = document.getElementsByClassName("card-body")[this.state.activeIndex];
-    let rootHeight = rootElement.scrollHeight;
-    let pageTextElement = document.getElementsByClassName("card-text")[this.state.activeIndex];
-
-    let style = window.getComputedStyle(pageTextElement, null).getPropertyValue('font-size');
-    let fontSize = parseFloat(style);
+    let rootHeight = this.rootElement.scrollHeight;
 
     //split will not include empty strings between two newline characters
     let textArray = text.split('\n');
 
     let pageTextHeight = textArray.map((item) => {
-      return this.measureText((item === "" ? "test" : item), rootElement, fontSize, pageTextElement.style, pageTextElement.style.width).height;
+      return this.measureText((item === "" ? "test" : item), this.rootElement, this.pageTextElement.style, this.pageTextElement.style.width).height;
     }).reduce((a, b) => a + b, 0);
 
     return pageTextHeight;
@@ -386,6 +382,18 @@ class StoryReader extends Component {
   handlePageInitialization() {
     //if all pages have been initialized, do not initialize any more pages
     if (this.arePagesInitialized) {
+      return;
+    }
+
+
+    let elements = document.getElementsByClassName("card-body");
+    this.rootElement = elements.length === 1 ? elements.item(0) : elements.item(this.state.activeIndex);
+
+
+    let pageTextElements = document.getElementsByClassName("card-text");
+    this.pageTextElement = pageTextElements.length === 1 ? pageTextElements.item(0) : pageTextElements.item(this.state.activeIndex);
+
+    if (!this.rootElement || !this.pageTextElement) {
       return;
     }
 
