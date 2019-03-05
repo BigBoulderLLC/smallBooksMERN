@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Button,
-  ListGroup,
-  ListGroupItem,
-  Card,
-  CardTitle
-} from 'reactstrap';
-import {
-  CSSTransition,
-  TransitionGroup
-} from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getStories, deleteStory } from '../actions/storyActions';
 import ShortStoryListItem from './ShortStoryListItem';
-import CreateShortStory from './CreateShortStory';
 import PropTypes from 'prop-types';
 
 class ShortStoryList extends Component {
@@ -36,19 +24,15 @@ class ShortStoryList extends Component {
 
       <div>
 
-        <TransitionGroup className="short-story-list">
+        {
+          Array.isArray(shortStories) ?
 
-          {shortStories.map((shortStory) => (
-
-            <CSSTransition key={shortStory._id} timeout={500} classNames="fade">
-
+          shortStories.map((shortStory) => (
               <ShortStoryListItem shortStory={shortStory} hideAuthor={this.props.hideAuthors} showReadStory={true} showEditStory={!this.props.readOnly} />
+          ))
 
-            </CSSTransition>
-
-          ))}
-
-        </TransitionGroup>
+          : <ShortStoryListItem shortStory={shortStories} hideAuthor={this.props.hideAuthors} showReadStory={true} showEditStory={!this.props.readOnly} />
+        }
 
       </div>
 

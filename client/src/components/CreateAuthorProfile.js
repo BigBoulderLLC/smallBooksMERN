@@ -7,10 +7,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Card,
-  CardHeader,
-  CardBody
+  Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addAuthor } from '../actions/authorActions';

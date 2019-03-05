@@ -20,9 +20,11 @@ class AuthorProfileList extends Component {
   render() {
     const { authors }  = this.props.authors;
     return(
+      Array.isArray(authors) ?
       authors.map((author) => (
         <AuthorProfile author={author} readOnly={this.props.readOnly} />
-      ))
+      )) :
+      <AuthorProfile author={authors} readOnly={this.props.readOnly} />
     )
   }
 }

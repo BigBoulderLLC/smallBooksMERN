@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  CardHeader,
   Card,
-  CardBody,
   CardTitle,
   CardSubtitle,
   CardText,
@@ -84,9 +82,5 @@ class ShortStoryListItem extends Component {
 ShortStoryListItem.propTypes = {
   shortStory: PropTypes.object.isRequired
 }
-
-const mapStateToProps = (state) => ({
-  shortStory: state.shortStory
-});
 
 export default ShortStoryListItem;
